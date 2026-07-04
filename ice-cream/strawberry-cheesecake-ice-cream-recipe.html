@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strawberry Cheesecake Ice Cream</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #f0ede6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: 'Jost', sans-serif;
+  }
+
+  .page {
+    background: #fffef9;
+    width: 680px;
+    padding: 64px 72px;
+    position: relative;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+  }
+
+  .page::before, .page::after {
+    content: '';
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-color: #b8cfc4;
+    border-style: solid;
+  }
+  .page::before { top: 20px; left: 20px; border-width: 1px 0 0 1px; }
+  .page::after  { bottom: 20px; right: 20px; border-width: 0 1px 1px 0; }
+
+  .category {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #7a9e8e;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 44px;
+    font-weight: 400;
+    line-height: 1.1;
+    color: #1c2b24;
+    margin-bottom: 6px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: #c47a7a;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: #8a9490;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    margin-bottom: 36px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #ddd9d0;
+    margin: 32px 0;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 36px;
+  }
+
+  .meta-item label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #aaa49a;
+    margin-bottom: 4px;
+  }
+
+  .meta-item span {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1c2b24;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 36px;
+  }
+
+  .section-title {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #7a9e8e;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .ingredient {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 9px 0;
+    border-bottom: 1px solid #edeae4;
+    gap: 12px;
+  }
+
+  .ingredient:last-child { border-bottom: none; }
+
+  .ingredient .amount {
+    font-size: 13px;
+    font-weight: 500;
+    color: #c47a7a;
+    white-space: nowrap;
+    min-width: 48px;
+  }
+
+  .ingredient .name {
+    font-size: 13px;
+    color: #3a4a42;
+    font-weight: 300;
+    text-align: right;
+  }
+
+  .steps ol {
+    list-style: none;
+    counter-reset: steps;
+  }
+
+  .steps ol li {
+    counter-increment: steps;
+    display: flex;
+    gap: 16px;
+    margin-bottom: 18px;
+    align-items: flex-start;
+  }
+
+  .steps ol li::before {
+    content: counter(steps);
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #e8c4c4;
+    line-height: 1;
+    min-width: 24px;
+    padding-top: 1px;
+  }
+
+  .steps ol li p {
+    font-size: 13px;
+    line-height: 1.75;
+    color: #3a4a42;
+    font-weight: 300;
+  }
+
+  .note-box {
+    background: #fdf5f5;
+    border-left: 2px solid #c47a7a;
+    padding: 16px 20px;
+    margin-top: 32px;
+  }
+
+  .note-box p {
+    font-size: 12px;
+    line-height: 1.7;
+    color: #6e5a5a;
+    font-weight: 300;
+  }
+
+  .note-box strong {
+    font-weight: 500;
+    color: #3a4a42;
+  }
+
+  .macros {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: #ddd9d0;
+    border: 1px solid #ddd9d0;
+  }
+
+  .macro {
+    background: #fffef9;
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .macro .value {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #1c2b24;
+    display: block;
+  }
+
+  .macro .mlabel {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #aaa49a;
+    margin-top: 2px;
+    display: block;
+  }
+
+  .footer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer .page-num {
+    font-size: 11px;
+    color: #aaa49a;
+    letter-spacing: 0.1em;
+  }
+
+  .footer .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: #7a9e8e;
+  }
+
+  /* Signature: strawberry shape */
+  .berry-wrap {
+    position: absolute;
+    top: 48px;
+    right: 60px;
+  }
+
+  .berry {
+    width: 44px;
+    height: 52px;
+    background: radial-gradient(circle at 40% 35%, #f4a0a0, #c84040);
+    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+    position: relative;
+  }
+
+  .berry::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 16px;
+    width: 3px;
+    height: 14px;
+    background: #6aaa6a;
+    border-radius: 2px;
+    transform: rotate(-10deg);
+  }
+
+  .berry::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 22px;
+    width: 3px;
+    height: 12px;
+    background: #6aaa6a;
+    border-radius: 2px;
+    transform: rotate(15deg);
+  }
+
+  .seeds {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: inherit;
+    overflow: hidden;
+  }
+
+  .seed {
+    position: absolute;
+    width: 3px;
+    height: 4px;
+    background: rgba(255,255,255,0.35);
+    border-radius: 50%;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="berry-wrap">
+    <div class="berry">
+      <div class="seeds">
+        <div class="seed" style="top:18px;left:10px"></div>
+        <div class="seed" style="top:28px;left:18px"></div>
+        <div class="seed" style="top:18px;left:26px"></div>
+        <div class="seed" style="top:36px;left:10px"></div>
+        <div class="seed" style="top:38px;left:26px"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="category">Frozen Desserts — Solo Scoops</p>
+  <h1><em>Strawberry</em><br>Cheesecake Ice Cream</h1>
+  <p class="subtitle">Low sugar · Cream cheese base · Cuisinart Solo Scoops</p>
+
+  <div class="meta-row">
+    <div class="meta-item">
+      <label>Prep time</label>
+      <span>15 min</span>
+    </div>
+    <div class="meta-item">
+      <label>Chill time</label>
+      <span>Overnight</span>
+    </div>
+    <div class="meta-item">
+      <label>Churn time</label>
+      <span>~20 min</span>
+    </div>
+    <div class="meta-item">
+      <label>Yield</label>
+      <span>~400g</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="two-col">
+    <div class="ingredients">
+      <p class="section-title">Ingredients</p>
+      <div class="ingredient"><span class="amount">115g</span><span class="name">Cream cheese, room temp</span></div>
+      <div class="ingredient"><span class="amount">38g</span><span class="name">Granulated sugar</span></div>
+      <div class="ingredient"><span class="amount">1 pinch</span><span class="name">Fine salt</span></div>
+      <div class="ingredient"><span class="amount">2 tablets</span><span class="name">Hermesetas (optional)</span></div>
+      <div class="ingredient"><span class="amount">75g</span><span class="name">Whole milk</span></div>
+      <div class="ingredient"><span class="amount">¼ tsp</span><span class="name">Vanilla powder</span></div>
+      <div class="ingredient"><span class="amount">1 tbsp</span><span class="name">Plain yogurt, room temp</span></div>
+      <div class="ingredient"><span class="amount">50g</span><span class="name">Sliced strawberries</span></div>
+      <div class="ingredient"><span class="amount">50g</span><span class="name">Digestive biscuits, chopped</span></div>
+    </div>
+
+    <div class="steps">
+      <p class="section-title">Method</p>
+      <ol>
+        <li><p>Beat cream cheese, sugar, salt and crushed Hermesetas tablets (if using) with a hand mixer until smooth and creamy.</p></li>
+        <li><p>Gradually add milk and vanilla powder, mixing until fully combined. Stir in the yogurt.</p></li>
+        <li><p>Cover and refrigerate at least 2 hours, preferably overnight.</p></li>
+        <li><p>Turn the Solo Scoops <strong>ON first</strong>, then pour the chilled base through the funnel. Churn ~15 minutes.</p></li>
+        <li><p>Add strawberries and digestive biscuit pieces through the funnel in the last 5 minutes of churning.</p></li>
+        <li><p>Transfer to an airtight container. Freeze 2 hours for a firmer scoop. Rest 15 min before serving.</p></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <p><strong>Tips —</strong> Sugar reduced from 65g to 38g — the cream cheese fat and natural strawberry sweetness compensate well. Strain the base before churning if it looks lumpy. Never store ice cream in the freezer bowl. Add Hermesetas tablets if you'd like more sweetness without affecting texture.</p>
+  </div>
+
+  <div class="macros">
+    <div class="macro"><span class="value">~195</span><span class="mlabel">kcal / 100g</span></div>
+    <div class="macro"><span class="value">~3g</span><span class="mlabel">Protein</span></div>
+    <div class="macro"><span class="value">~16g</span><span class="mlabel">Carbs</span></div>
+    <div class="macro"><span class="value">~13g</span><span class="mlabel">Fat</span></div>
+    <div class="macro"><span class="value">~10g</span><span class="mlabel">Added sugar</span></div>
+  </div>
+
+  <div class="footer">
+    <span class="page-num">— 03 —</span>
+    <span class="brand">My Ice Cream Book</span>
+  </div>
+
+</div>
+</body>
+</html>
