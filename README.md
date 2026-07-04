@@ -1,20 +1,27 @@
-# Alieksandra's Kitchen 
+# Alieksandra's Kitchen 🍦
 
 A personal collection of homemade recipes — ice cream, desserts, and meals — built and maintained by Alieksandra.
 
 ## Recipes
 
-| # | Recipe | Category |
-|---|--------|----------|
-| 01 | Simple Vanilla Ice Cream | Ice Cream |
-| 02 | Pistachio Ice Cream | Ice Cream |
-| 03 | Strawberry Cheesecake Ice Cream | Ice Cream |
+### 🍦 Ice Cream (`/ice-cream`)
+| # | Recipe | File |
+|---|--------|------|
+| 01 | Simple Vanilla Ice Cream | `ice-cream/vanilla.html` |
+| 02 | Pistachio Ice Cream | `ice-cream/pistachio.html` |
+| 03 | Strawberry Cheesecake Ice Cream | `ice-cream/strawberry-cheesecake.html` |
+
+### 🍮 Desserts (`/desserts`)
+Coming soon.
+
+### 🍽️ Meals (`/meals`)
+Coming soon.
 
 ## About
 
 All recipes are adapted for home cooking with:
 - Metric measurements only
-- Ice creams: Cuisinart Solo Scoops ice cream maker
+- Cuisinart Solo Scoops ice cream maker
 - Low sugar adaptations where possible
 - Lactose-free ingredients where applicable
 
