@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alieksandra's Kitchen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #f0ede6;
+    min-height: 100vh;
+    font-family: 'Jost', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 20px;
+  }
+
+  .cover {
+    background: #fffef9;
+    width: 680px;
+    max-width: 100%;
+    padding: 72px;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .cover::before, .cover::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-color: #b8cfc4;
+    border-style: solid;
+  }
+  .cover::before { top: 24px; left: 24px; border-width: 1px 0 0 1px; }
+  .cover::after  { bottom: 24px; right: 24px; border-width: 0 1px 1px 0; }
+
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #7a9e8e;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  .title {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 1.05;
+    color: #1c2b24;
+    margin-bottom: 8px;
+  }
+
+  .title em {
+    font-style: italic;
+    color: #7a9e8e;
+  }
+
+  .tagline {
+    font-size: 14px;
+    color: #8a9490;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    margin-bottom: 52px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #ddd9d0;
+    margin: 40px 0;
+  }
+
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #aaa49a;
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+
+  .recipe-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .recipe-card {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 24px;
+    background: #f8f6f1;
+    text-decoration: none;
+    transition: background 0.2s;
+    border-left: 3px solid transparent;
+  }
+
+  .recipe-card:hover {
+    background: #f0ede6;
+    border-left-color: #7a9e8e;
+  }
+
+  .recipe-card.strawberry:hover {
+    border-left-color: #c47a7a;
+  }
+
+  .recipe-card.pistachio:hover {
+    border-left-color: #8aaa6a;
+  }
+
+  .card-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: #ddd9d0;
+    min-width: 36px;
+    line-height: 1;
+  }
+
+  .card-body {
+    flex: 1;
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: #1c2b24;
+    margin-bottom: 3px;
+  }
+
+  .card-meta {
+    font-size: 11px;
+    color: #aaa49a;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  .card-tag {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .tag-icecream {
+    background: #e8f2ee;
+    color: #7a9e8e;
+  }
+
+  .tag-dessert {
+    background: #fdf0f0;
+    color: #c47a7a;
+  }
+
+  .tag-meal {
+    background: #f0f0e8;
+    color: #8a8a5a;
+  }
+
+  .card-arrow {
+    font-size: 18px;
+    color: #ddd9d0;
+    font-weight: 300;
+  }
+
+  .about {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid #edeae4;
+  }
+
+  .about p {
+    font-size: 13px;
+    color: #8a9490;
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  .about p strong {
+    color: #3a4a42;
+    font-weight: 500;
+  }
+
+  .footer {
+    margin-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer .copy {
+    font-size: 11px;
+    color: #ccc8c0;
+    letter-spacing: 0.05em;
+  }
+
+  .footer .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: #7a9e8e;
+  }
+
+  /* Decorative element: three dots representing scoops */
+  .scoops {
+    position: absolute;
+    top: 64px;
+    right: 72px;
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+  }
+
+  .scoop-dot {
+    border-radius: 50%;
+    opacity: 0.85;
+  }
+
+  .scoop-dot:nth-child(1) { width: 22px; height: 22px; background: #e8dfc8; }
+  .scoop-dot:nth-child(2) { width: 28px; height: 28px; background: #c8d8a8; }
+  .scoop-dot:nth-child(3) { width: 22px; height: 22px; background: #f4a0a0; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+
+  <div class="scoops">
+    <div class="scoop-dot"></div>
+    <div class="scoop-dot"></div>
+    <div class="scoop-dot"></div>
+  </div>
+
+  <p class="eyebrow">Recipe Collection</p>
+  <h1 class="title">Alieksandra's<br><em>Kitchen</em></h1>
+  <p class="tagline">Ice cream, desserts & meals — homemade from scratch</p>
+
+  <p class="section-label">Recipes</p>
+
+  <div class="recipe-grid">
+
+    <a href="ice-cream/vanilla.html" class="recipe-card">
+      <span class="card-num">01</span>
+      <div class="card-body">
+        <div class="card-title">Simple Vanilla Ice Cream</div>
+        <div class="card-meta">Low sugar · No egg · Solo Scoops</div>
+      </div>
+      <span class="card-tag tag-icecream">Ice Cream</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a href="ice-cream/pistachio.html" class="recipe-card pistachio">
+      <span class="card-num">02</span>
+      <div class="card-body">
+        <div class="card-title">Pistachio Ice Cream</div>
+        <div class="card-meta">Custard base · Low sugar · Solo Scoops</div>
+      </div>
+      <span class="card-tag tag-icecream">Ice Cream</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+    <a href="ice-cream/strawberry-cheesecake.html" class="recipe-card strawberry">
+      <span class="card-num">03</span>
+      <div class="card-body">
+        <div class="card-title">Strawberry Cheesecake Ice Cream</div>
+        <div class="card-meta">Cream cheese base · Low sugar · Solo Scoops</div>
+      </div>
+      <span class="card-tag tag-dessert">Ice Cream</span>
+      <span class="card-arrow">→</span>
+    </a>
+
+  </div>
+
+  <div class="about">
+    <p>All recipes use <strong>metric measurements only</strong> and are adapted for the <strong>Cuisinart Solo Scoops</strong> ice cream maker. Sugar is reduced where possible without affecting texture. Lactose-free ingredients used throughout.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="footer">
+    <span class="copy">© 2026 Alieksandra — CC BY-NC 4.0</span>
+    <span class="brand">My Ice Cream Book</span>
+  </div>
+
+</div>
+
+</body>
+</html>
