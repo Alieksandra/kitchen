@@ -12,7 +12,7 @@
     background: #f0ede6;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
     padding: 40px 20px;
     font-family: 'Jost', sans-serif;
@@ -20,10 +20,26 @@
 
   .page {
     background: #fffef9;
-    width: 680px;
+    width: 100%;
+    max-width: 680px;
     padding: 64px 72px;
     position: relative;
     box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 0; }
+    .page { padding: 32px 20px; box-shadow: none; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .meta-row { flex-wrap: wrap; gap: 16px; }
+    .macros { grid-template-columns: repeat(3, 1fr); }
+    .macro .value { font-size: 16px; }
+    .macro .mlabel { font-size: 8px; }
+    h1 { font-size: 34px; }
+    .scoop { display: none; }
+    .note-box { padding: 12px 16px; }
+    .footer { flex-direction: column; gap: 8px; text-align: center; }
+    .page::before, .page::after { display: none; }
   }
 
   /* Decorative corner lines */
