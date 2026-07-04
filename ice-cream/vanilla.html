@@ -38,6 +38,22 @@
   .page::before { top: 20px; left: 20px; border-width: 1px 0 0 1px; }
   .page::after  { bottom: 20px; right: 20px; border-width: 0 1px 1px 0; }
 
+  .breadcrumb {
+    font-size: 11px;
+    color: #aaa49a;
+    font-weight: 300;
+    margin-bottom: 24px;
+    letter-spacing: 0.03em;
+  }
+
+  .breadcrumb a {
+    color: #7a9e8e;
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: #ccc8c0; }
+
   .category {
     font-family: 'Jost', sans-serif;
     font-weight: 500;
@@ -287,6 +303,14 @@
       <div class="scoop-drip"></div>
     </div>
   </div>
+
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a>
+    <span>→</span>
+    <a href="../index.html#ice-cream">Ice Cream</a>
+    <span>→</span>
+    Vanilla
+  </nav>
 
   <p class="category">Frozen Desserts — Solo Scoops</p>
   <h1>Simple <em>Vanilla</em><br>Ice Cream</h1>
