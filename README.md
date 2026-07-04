@@ -27,7 +27,7 @@ All recipes are adapted for home cooking with:
 
 ## Live Site
 
-Coming soon at `alieksandra.github.io/alieksandras-kitchen`
+Coming soon at `alieksandra.github.io/kitchen`
 
 ## License
 
