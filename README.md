@@ -10,6 +10,7 @@ A personal collection of homemade recipes — ice cream, desserts, and meals —
 | 01 | Simple Vanilla Ice Cream | `ice-cream/vanilla.html` |
 | 02 | Pistachio Ice Cream | `ice-cream/pistachio.html` |
 | 03 | Strawberry Cheesecake Ice Cream | `ice-cream/strawberry-cheesecake.html` |
+| 04 | Simple Chocolate Ice Cream | `ice-cream/chocolate.html` |
 
 ### 🍮 Desserts (`/desserts`)
 Coming soon.
@@ -27,7 +28,7 @@ All recipes are adapted for home cooking with:
 
 ## Live Site
 
-Coming soon at `alieksandra.github.io/kitchen`
+https://alieksandra.github.io/kitchen
 
 ## License
 
