@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simple Vanilla Ice Cream</title>
+<title>Simple Chocolate Ice Cream</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -12,7 +12,7 @@
     background: #f0ede6;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     min-height: 100vh;
     padding: 40px 20px;
     font-family: 'Jost', sans-serif;
@@ -36,13 +36,12 @@
     .macro .value { font-size: 16px; }
     .macro .mlabel { font-size: 8px; }
     h1 { font-size: 34px; }
-    .scoop { display: none; }
+    .choc-wrap { display: none; }
     .note-box { padding: 12px 16px; }
     .footer { flex-direction: column; gap: 8px; text-align: center; }
     .page::before, .page::after { display: none; }
   }
 
-  /* Decorative corner lines */
   .page::before, .page::after {
     content: '';
     position: absolute;
@@ -271,53 +270,45 @@
     color: #7a9e8e;
   }
 
-  /* Signature element: melting scoop illustration via CSS */
-  .scoop {
+  /* Chocolate shards decoration */
+  .choc-wrap {
     position: absolute;
     top: 52px;
     right: 64px;
-    width: 64px;
-    height: 64px;
+    display: flex;
+    gap: 5px;
+    align-items: flex-end;
   }
 
-  .scoop-ball {
-    width: 52px;
-    height: 52px;
-    background: radial-gradient(circle at 38% 36%, #fffef9 0%, #f5efe0 40%, #e8dfc8 100%);
-    border-radius: 50%;
+  .shard {
+    background: linear-gradient(160deg, #6b3f2a, #3d1f0f);
+    border-radius: 2px;
     position: relative;
-    box-shadow: inset -4px -4px 10px rgba(0,0,0,0.07);
   }
 
-  .scoop-drip {
-    position: absolute;
-    bottom: -12px;
-    left: 20px;
-    width: 12px;
-    height: 20px;
-    background: #e8dfc8;
-    border-radius: 0 0 8px 8px;
-  }
-
-  .scoop-drip::after {
+  .shard::after {
     content: '';
     position: absolute;
-    bottom: -8px;
-    left: 2px;
-    width: 8px;
-    height: 12px;
-    background: #e8dfc8;
-    border-radius: 0 0 6px 6px;
+    top: 3px;
+    left: 3px;
+    width: 4px;
+    height: 6px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 1px;
   }
+
+  .shard:nth-child(1) { width: 12px; height: 30px; transform: rotate(-8deg); }
+  .shard:nth-child(2) { width: 14px; height: 42px; transform: rotate(3deg); }
+  .shard:nth-child(3) { width: 10px; height: 24px; transform: rotate(12deg); }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <div class="scoop">
-    <div class="scoop-ball">
-      <div class="scoop-drip"></div>
-    </div>
+  <div class="choc-wrap">
+    <div class="shard"></div>
+    <div class="shard"></div>
+    <div class="shard"></div>
   </div>
 
   <nav class="breadcrumb">
@@ -325,11 +316,11 @@
     <span>→</span>
     <a href="../index.html#ice-cream">Ice Cream</a>
     <span>→</span>
-    Vanilla
+    Chocolate
   </nav>
 
   <p class="category">Frozen Desserts — Solo Scoops</p>
-  <h1>Simple <em>Vanilla</em><br>Ice Cream</h1>
+  <h1>Simple <em>Chocolate</em><br>Ice Cream</h1>
   <p class="subtitle">Low sugar · No egg · Cuisinart Solo Scoops</p>
 
   <div class="meta-row">
@@ -347,7 +338,7 @@
     </div>
     <div class="meta-item">
       <label>Yield</label>
-      <span>~275g</span>
+      <span>~290g</span>
     </div>
   </div>
 
@@ -356,19 +347,21 @@
   <div class="two-col">
     <div class="ingredients">
       <p class="section-title">Ingredients</p>
-      <div class="ingredient"><span class="amount">50g</span><span class="name">Whole milk</span></div>
-      <div class="ingredient"><span class="amount">35g</span><span class="name">Granulated sugar</span></div>
-      <div class="ingredient"><span class="amount">175g</span><span class="name">Valio whipping cream</span></div>
-      <div class="ingredient"><span class="amount">½ tsp</span><span class="name">Vanilla powder</span></div>
-      <div class="ingredient"><span class="amount">1 pinch</span><span class="name">Fine salt</span></div>
+      <div class="ingredient"><span class="amount">30g</span><span class="name">Cocoa powder, sifted</span></div>
+      <div class="ingredient"><span class="amount">35g</span><span class="name">Brown sugar</span></div>
       <div class="ingredient"><span class="amount">2 tablets</span><span class="name">Hermesetas (optional)</span></div>
+      <div class="ingredient"><span class="amount">1 pinch</span><span class="name">Fine salt</span></div>
+      <div class="ingredient"><span class="amount">75g</span><span class="name">Whole milk</span></div>
+      <div class="ingredient"><span class="amount">150g</span><span class="name">Valio lactose-free whipping cream</span></div>
+      <div class="ingredient"><span class="amount">¼ tsp</span><span class="name">Vanilla powder</span></div>
     </div>
 
     <div class="steps">
       <p class="section-title">Method</p>
       <ol>
-        <li><p>Whisk together milk, sugar, vanilla powder, salt and crushed Hermesetas tablets (if using) until fully dissolved.</p></li>
-        <li><p>Stir in the whipping cream. Cover and refrigerate at least 2 hours, preferably overnight.</p></li>
+        <li><p>Whisk together cocoa powder, brown sugar, salt and crushed Hermesetas tablets (if using) in a bowl.</p></li>
+        <li><p>Add milk and whisk until sugar is fully dissolved.</p></li>
+        <li><p>Stir in the cream and vanilla powder until combined. Cover and refrigerate at least 2 hours, preferably overnight.</p></li>
         <li><p>Turn the Solo Scoops <strong>ON first</strong>, then pour the chilled base through the funnel. Churn ~20 minutes until thickened.</p></li>
         <li><p>Transfer to an airtight container. Freeze 2 hours for a firmer scoop. Rest 10–15 min before serving.</p></li>
       </ol>
@@ -376,19 +369,19 @@
   </div>
 
   <div class="note-box">
-    <p><strong>Tips —</strong> Always start the machine before pouring. Never store ice cream in the freezer bowl. Sugar is reduced from the original 60g to 35g; the higher cream ratio compensates for texture. Add Hermesetas tablets to taste if you'd like more sweetness without affecting the freeze.</p>
+    <p><strong>Tips —</strong> Brown sugar only — its molasses notes complement cocoa beautifully without the need for white sugar. Use high quality dark cocoa for a richer flavour. Never store ice cream in the freezer bowl. Add extra Hermesetas if you prefer it sweeter.</p>
   </div>
 
   <div class="macros">
-    <div class="macro"><span class="value">~210</span><span class="mlabel">kcal / 100g</span></div>
-    <div class="macro"><span class="value">1.6g</span><span class="mlabel">Protein</span></div>
-    <div class="macro"><span class="value">~12g</span><span class="mlabel">Carbs</span></div>
-    <div class="macro"><span class="value">~19g</span><span class="mlabel">Fat</span></div>
-    <div class="macro"><span class="value">~9g</span><span class="mlabel">Added sugar</span></div>
+    <div class="macro"><span class="value">~195</span><span class="mlabel">kcal / 100g</span></div>
+    <div class="macro"><span class="value">~3g</span><span class="mlabel">Protein</span></div>
+    <div class="macro"><span class="value">~16g</span><span class="mlabel">Carbs</span></div>
+    <div class="macro"><span class="value">~14g</span><span class="mlabel">Fat</span></div>
+    <div class="macro"><span class="value">~12g</span><span class="mlabel">Added sugar</span></div>
   </div>
 
   <div class="footer">
-    <span class="page-num">— 01 —</span>
+    <span class="page-num">— 04 —</span>
     <span class="brand">My Ice Cream Book</span>
   </div>
 
