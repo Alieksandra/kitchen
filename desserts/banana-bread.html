@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whole Wheat Banana Bread</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #f0ede6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: 'Jost', sans-serif;
+  }
+
+  .page {
+    background: #fffef9;
+    width: 100%;
+    max-width: 680px;
+    padding: 64px 72px;
+    position: relative;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 0; }
+    .page { padding: 32px 20px; box-shadow: none; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .meta-row { flex-wrap: wrap; gap: 16px; }
+    .macros { grid-template-columns: repeat(3, 1fr); }
+    .macro .value { font-size: 16px; }
+    .macro .mlabel { font-size: 8px; }
+    h1 { font-size: 34px; }
+    .banana-wrap { display: none; }
+    .note-box { padding: 12px 16px; }
+    .footer { flex-direction: column; gap: 8px; text-align: center; }
+    .page::before, .page::after { display: none; }
+    .switchers { flex-direction: column; gap: 8px; }
+  }
+
+  .page::before, .page::after {
+    content: '';
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-color: #b8cfc4;
+    border-style: solid;
+  }
+  .page::before { top: 20px; left: 20px; border-width: 1px 0 0 1px; }
+  .page::after  { bottom: 20px; right: 20px; border-width: 0 1px 1px 0; }
+
+  .breadcrumb { font-size: 11px; color: #aaa49a; font-weight: 300; margin-bottom: 24px; letter-spacing: 0.03em; }
+  .breadcrumb a { color: #7a9e8e; text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: #ccc8c0; }
+
+  .attribution { font-size: 11px; color: #aaa49a; font-weight: 300; margin-bottom: 20px; letter-spacing: 0.03em; }
+  .attribution a { color: #7a9e8e; text-decoration: none; }
+  .attribution a:hover { text-decoration: underline; }
+
+  .category { font-family: 'Jost', sans-serif; font-weight: 500; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: #7a9e8e; margin-bottom: 16px; }
+
+  h1 { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 400; line-height: 1.1; color: #1c2b24; margin-bottom: 6px; }
+  h1 em { font-style: italic; color: #7a9e8e; }
+
+  .subtitle { font-size: 13px; color: #8a9490; font-weight: 300; letter-spacing: 0.05em; margin-bottom: 24px; }
+
+  .switchers { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+
+  .switcher-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: #aaa49a; font-weight: 500; }
+
+  .switcher { display: inline-flex; background: #f0ede6; border-radius: 20px; padding: 3px; gap: 2px; }
+
+  .switcher button {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none;
+    background: transparent;
+    color: #aaa49a;
+    padding: 6px 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .switcher button.active { background: #fffef9; color: #1c2b24; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+
+  .divider { border: none; border-top: 1px solid #ddd9d0; margin: 32px 0; }
+  .meta-row { display: flex; gap: 40px; margin-bottom: 36px; }
+  .meta-item label { display: block; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #aaa49a; margin-bottom: 4px; }
+  .meta-item span { font-size: 15px; font-weight: 500; color: #1c2b24; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-bottom: 36px; }
+
+  .section-title { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #7a9e8e; margin-bottom: 16px; font-weight: 500; }
+
+  .ingredient { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-bottom: 1px solid #edeae4; gap: 12px; }
+  .ingredient:last-child { border-bottom: none; }
+  .ingredient .amount { font-size: 13px; font-weight: 500; color: #7a9e8e; white-space: nowrap; min-width: 48px; }
+  .ingredient .name { font-size: 13px; color: #3a4a42; font-weight: 300; text-align: right; }
+  .ingredient.protein-only { display: none; }
+
+  .steps ol { list-style: none; counter-reset: steps; }
+  .steps ol li { counter-increment: steps; display: flex; gap: 16px; margin-bottom: 18px; align-items: flex-start; }
+  .steps ol li::before { content: counter(steps); font-family: 'Playfair Display', serif; font-size: 22px; color: #d4e3dc; line-height: 1; min-width: 24px; padding-top: 1px; }
+  .steps ol li p { font-size: 13px; line-height: 1.75; color: #3a4a42; font-weight: 300; }
+
+  .note-box { background: #f0f5f2; border-left: 2px solid #7a9e8e; padding: 16px 20px; margin-top: 32px; }
+  .note-box p { font-size: 12px; line-height: 1.7; color: #5a6e64; font-weight: 300; }
+  .note-box strong { font-weight: 500; color: #3a4a42; }
+
+  .macros { margin-top: 32px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: #ddd9d0; border: 1px solid #ddd9d0; }
+  .macro { background: #fffef9; padding: 14px 12px; text-align: center; }
+  .macro .value { font-family: 'Playfair Display', serif; font-size: 22px; color: #1c2b24; display: block; }
+  .macro .mlabel { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: #aaa49a; margin-top: 2px; display: block; }
+
+  .footer { margin-top: 40px; display: flex; justify-content: space-between; align-items: center; }
+  .footer .page-num { font-size: 11px; color: #aaa49a; letter-spacing: 0.1em; }
+  .footer .brand { font-family: 'Playfair Display', serif; font-size: 13px; font-style: italic; color: #7a9e8e; }
+
+  .banana-wrap { position: absolute; top: 48px; right: 60px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="banana-wrap">
+    <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M28 8 Q18 20 16 40 Q15 52 22 58" stroke="#c8a800" stroke-width="10" stroke-linecap="round" fill="none"/>
+      <path d="M28 8 Q18 20 16 40 Q15 52 22 58" stroke="#f5e03a" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <circle cx="28" cy="8" r="3.5" fill="#7a5c00"/>
+      <path d="M42 10 Q54 22 56 42 Q57 54 50 60" stroke="#b89600" stroke-width="9" stroke-linecap="round" fill="none"/>
+      <path d="M42 10 Q54 22 56 42 Q57 54 50 60" stroke="#ead628" stroke-width="6" stroke-linecap="round" fill="none"/>
+      <circle cx="42" cy="10" r="3" fill="#7a5c00"/>
+    </svg>
+  </div>
+
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a>
+    <span>→</span>
+    <a href="../index.html#desserts">Desserts</a>
+    <span>→</span>
+    Banana Bread
+  </nav>
+
+  <p class="attribution">Adapted from <a href="https://sallysbakingaddiction.com/whole-wheat-banana-bread/" target="_blank">Sally's Baking Addiction</a></p>
+
+  <p class="category">Desserts & Bakes</p>
+  <h1>Whole Wheat<br><em>Banana Bread</em></h1>
+  <p class="subtitle" id="subtitle">Yogurt · Maple syrup · Whole wheat</p>
+
+  <div class="switchers">
+    <div class="switcher">
+      <button class="active" onclick="setProtein('regular', this)">Regular</button>
+      <button onclick="setProtein('protein', this)">High protein</button>
+    </div>
+    <div class="switcher">
+      <button class="active" onclick="setSize('full', this)">Full loaf</button>
+      <button onclick="setSize('half', this)">Half loaf</button>
+    </div>
+  </div>
+
+  <div class="meta-row">
+    <div class="meta-item"><label>Prep time</label><span>15 min</span></div>
+    <div class="meta-item"><label>Bake time</label><span id="bake-time">60–65 min</span></div>
+    <div class="meta-item"><label>Total time</label><span>~1.5 hrs</span></div>
+    <div class="meta-item"><label>Yield</label><span id="yield-label">1 loaf</span></div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="two-col">
+    <div class="ingredients">
+      <p class="section-title">Ingredients</p>
+      <div class="ingredient">
+        <span class="amount" data-regular="288g" data-protein="288g">288g</span>
+        <span class="name">Mashed ripe bananas (~3 medium)</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-regular="90g" data-protein="90g">90g</span>
+        <span class="name" id="yogurt-name">Turkisk yogurt 10%</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-regular="2" data-protein="2">2</span>
+        <span class="name">Large eggs</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-regular="85g" data-protein="85g">85g</span>
+        <span class="name">Pure maple syrup</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-regular="50g" data-protein="30g">50g</span>
+        <span class="name">Packed light brown sugar</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-regular="80ml" data-protein="100ml">80ml</span>
+        <span class="name">Whole milk</span>
+      </div>
+      <div class="ingredient" id="vanilla-row">
+        <span class="amount" data-regular="½ tsp" data-protein="½ tsp">½ tsp</span>
+        <span class="name">Vanilla powder</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-regular="220g" data-protein="190g">220g</span>
+        <span class="name">Whole wheat flour</span>
+      </div>
+      <div class="ingredient protein-only">
+        <span class="amount">30g</span>
+        <span class="name">Vanilla whey protein powder</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-regular="1 tsp" data-protein="1 tsp">1 tsp</span>
+        <span class="name">Baking soda</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-regular="½ tsp" data-protein="½ tsp">½ tsp</span>
+        <span class="name">Ground cinnamon</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-regular="½ tsp" data-protein="½ tsp">½ tsp</span>
+        <span class="name">Fine salt</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-regular="67g" data-protein="67g">67g</span>
+        <span class="name">Chopped walnuts (optional)</span>
+      </div>
+    </div>
+
+    <div class="steps">
+      <p class="section-title">Method</p>
+      <ol>
+        <li><p>Adjust oven rack to lower third position and preheat to 175°C. Grease a <span id="pan-size">23×13cm</span> loaf pan.</p></li>
+        <li><p>Beat mashed bananas, <span id="yogurt-text">Turkisk yogurt</span> and eggs together until combined. Add maple syrup, brown sugar, milk<span id="vanilla-step"> and vanilla powder</span>. Mix until combined.</p></li>
+        <li><p>Whisk together flour, <span id="protein-step" style="display:none">protein powder, </span>baking soda, cinnamon and salt. Add to wet ingredients and mix until just combined. Fold in walnuts if using.</p></li>
+        <li><p>Pour batter into prepared pan. Bake for <span id="bake-range">60–65 minutes</span>, loosely covering with foil halfway through. Done when a toothpick inserted in the centre comes out with only a few moist crumbs.</p></li>
+        <li><p>Cool completely in the pan on a wire rack before slicing. Tastes best on day 2!</p></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <p id="note-text"><strong>Tips —</strong> Use very ripe bananas with brown spots for best sweetness and moisture. Greek yogurt replaces applesauce 1:1 and adds a slight tang. Keeps at room temperature for 2 days or refrigerated for up to 1 week. Freezes well for up to 3 months.</p>
+  </div>
+
+  <div class="macros">
+    <div class="macro"><span class="value" id="m-kcal">~175</span><span class="mlabel">kcal / 100g</span></div>
+    <div class="macro"><span class="value" id="m-protein">~4g</span><span class="mlabel">Protein</span></div>
+    <div class="macro"><span class="value" id="m-carbs">~32g</span><span class="mlabel">Carbs</span></div>
+    <div class="macro"><span class="value" id="m-fat">~3g</span><span class="mlabel">Fat</span></div>
+    <div class="macro"><span class="value" id="m-sugar">~12g</span><span class="mlabel">Sugar</span></div>
+  </div>
+
+  <div class="footer">
+    <span class="page-num">— 01 —</span>
+    <span class="brand">My Recipe Book</span>
+  </div>
+
+</div>
+
+<script>
+  let currentProtein = 'regular';
+  let currentSize = 'full';
+
+  const macros = {
+    regular: { kcal: '~175', protein: '~4g',  carbs: '~32g', fat: '~3g', sugar: '~12g' },
+    protein: { kcal: '~165', protein: '~10g', carbs: '~26g', fat: '~3g', sugar: '~10g' }
+  };
+
+  const sizes = {
+    full: { yield: '1 loaf', bake: '60–65 min', bakeRange: '60–65 minutes', pan: '23×13cm', multiplier: 1 },
+    half: { yield: '½ loaf', bake: '40–45 min', bakeRange: '40–45 minutes', pan: '20×10cm', multiplier: 0.5 }
+  };
+
+  function updateDisplay() {
+    const s = sizes[currentSize];
+    const m = macros[currentProtein];
+    const isProtein = currentProtein === 'protein';
+    const isHalf = currentSize === 'half';
+
+    // Size-related
+    document.getElementById('yield-label').textContent = s.yield;
+    document.getElementById('bake-time').textContent = s.bake;
+    document.getElementById('bake-range').textContent = s.bakeRange;
+    document.getElementById('pan-size').textContent = s.pan;
+
+    // Macros
+    document.getElementById('m-kcal').textContent = m.kcal;
+    document.getElementById('m-protein').textContent = m.protein;
+    document.getElementById('m-carbs').textContent = m.carbs;
+    document.getElementById('m-fat').textContent = m.fat;
+    document.getElementById('m-sugar').textContent = m.sugar;
+
+    // Ingredient amounts — apply protein values first, then halve if needed
+    document.querySelectorAll('.amount[data-regular]').forEach(el => {
+      el.textContent = isProtein ? el.dataset.protein : el.dataset.regular;
+      if (isHalf) {
+        const val = el.textContent;
+        const num = parseFloat(val);
+        if (!isNaN(num)) {
+          const unit = val.replace(/[\d.]+/, '').trim();
+          el.textContent = (num / 2) + unit;
+        }
+      }
+    });
+
+    // Half fixed amounts (tsp etc stored as fractions — handle manually)
+    if (isHalf) {
+      document.querySelectorAll('.amount[data-regular]').forEach(el => {
+        const reg = isProtein ? el.dataset.protein : el.dataset.regular;
+        if (reg === '1 tsp') el.textContent = '½ tsp';
+        if (reg === '½ tsp') el.textContent = '¼ tsp';
+        if (reg === '¼ tsp') el.textContent = '⅛ tsp';
+        if (reg === '2') el.textContent = '1';
+      });
+    }
+
+    // Hide vanilla powder in protein mode
+    document.getElementById('vanilla-row').style.display = isProtein ? 'none' : 'flex';
+    document.getElementById('vanilla-step').style.display = isProtein ? 'none' : 'inline';
+    document.querySelectorAll('.protein-only').forEach(el => {
+      el.style.display = isProtein ? 'flex' : 'none';
+    });
+
+    // Protein step text
+    document.getElementById('protein-step').style.display = isProtein ? 'inline' : 'none';
+
+    // Yogurt name
+    document.getElementById('yogurt-name').textContent = isProtein
+      ? 'High-protein strained yogurt — kvarg or skyr (min 10g protein/100g, low fat)'
+      : 'Turkisk yogurt 10%';
+    document.getElementById('yogurt-text').textContent = isProtein ? 'high-protein yogurt' : 'Turkisk yogurt';
+
+    // Subtitle
+    document.getElementById('subtitle').textContent = isProtein
+      ? 'High protein · Whey · Maple syrup · Whole wheat'
+      : 'Turkisk yogurt · Maple syrup · Vanilla powder · Whole wheat';
+
+    // Note
+    document.getElementById('note-text').innerHTML = isProtein
+      ? '<strong>Tips —</strong> Look for a high-protein strained yogurt with at least 10g protein per 100g and low fat content — this keeps calories in check while boosting protein significantly. Don\'t over-mix once the protein powder is added as it can toughen the crumb. Use very ripe bananas for natural sweetness. Tastes best on day 2!'
+      : '<strong>Tips —</strong> Turkisk yogurt 10% is the best substitute here — thick, creamy and widely available in Swedish supermarkets. Use very ripe bananas with brown spots for best sweetness and moisture. Keeps at room temperature for 2 days or refrigerated for up to 1 week. Freezes well for up to 3 months.';
+  }
+
+  function setProtein(mode, btn) {
+    currentProtein = mode;
+    btn.closest('.switcher').querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    updateDisplay();
+  }
+
+  function setSize(size, btn) {
+    currentSize = size;
+    btn.closest('.switcher').querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    updateDisplay();
+  }
+</script>
+
+</body>
+</html>

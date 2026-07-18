@@ -11,9 +11,12 @@ A personal collection of homemade recipes — ice cream, desserts, and meals —
 | 02 | Pistachio Ice Cream | `ice-cream/pistachio.html` |
 | 03 | Strawberry Cheesecake Ice Cream | `ice-cream/strawberry-cheesecake.html` |
 | 04 | Simple Chocolate Ice Cream | `ice-cream/chocolate.html` |
+| 05 | Maple Walnut Ice Cream | `ice-cream/maple-walnut.html` |
 
 ### 🍮 Desserts (`/desserts`)
-Coming soon.
+| # | Recipe | File |
+|---|--------|------|
+| 01 | Whole Wheat Banana Bread | `desserts/banana-bread.html` |
 
 ### 🍽️ Meals (`/meals`)
 Coming soon.
