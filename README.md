@@ -12,7 +12,6 @@ A personal collection of homemade recipes — ice cream, desserts, and meals —
 | 03 | Strawberry Cheesecake Ice Cream | `ice-cream/strawberry-cheesecake.html` |
 | 04 | Simple Chocolate Ice Cream | `ice-cream/chocolate.html` |
 | 05 | Maple Walnut Ice Cream | `ice-cream/maple-walnut.html` |
-| 06 | Coconut Ice Cream | `ice-cream/coconut.html` |
 
 ### 🍮 Desserts (`/desserts`)
 | # | Recipe | File |
@@ -20,7 +19,9 @@ A personal collection of homemade recipes — ice cream, desserts, and meals —
 | 01 | Whole Wheat Banana Bread | `desserts/banana-bread.html` |
 
 ### 🍽️ Meals (`/meals`)
-Coming soon.
+| # | Recipe | File |
+|---|--------|------|
+| 01 | Oven Roasted Chicken with Red Pesto | `meals/chicken-pesto.html` |
 
 ## About
 
