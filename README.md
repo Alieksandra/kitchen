@@ -24,6 +24,7 @@ A personal collection of homemade recipes — ice cream, desserts, and meals —
 | # | Recipe | File |
 |---|--------|------|
 | 01 | Oven Roasted Chicken with Red Pesto | `meals/chicken-pesto.html` |
+| 02 | Juicy Spaghetti with Ground Beef Sauce | `meals/spaghetti-beef-sauce.html` |
 
 ## About
 
