@@ -212,6 +212,42 @@
     font-weight: 300;
   }
 
+  .step-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 8px;
+    padding: 2px 10px;
+    background: #f0f5f2;
+    border: 1px solid #d4e3dc;
+    border-radius: 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #7a9e8e;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    vertical-align: middle;
+  }
+
+  .step-timer:hover { background: #e5efe9; }
+
+  .step-timer.running {
+    background: #7a9e8e;
+    border-color: #7a9e8e;
+    color: #fffef9;
+  }
+
+  .step-timer.done {
+    background: #1c2b24;
+    border-color: #1c2b24;
+    color: #fffef9;
+  }
+
+  .step-timer .timer-icon { font-size: 9px; }
+
   .note-box {
     background: #f0f5f2;
     border-left: 2px solid #7a9e8e;
@@ -371,7 +407,7 @@
       <p class="section-title">Ingredients</p>
       <div class="ingredient"><span class="amount">40g</span><span class="name">Full-fat coconut milk</span></div>
       <div class="ingredient"><span class="amount">25g</span><span class="name">Granulated sugar</span></div>
-      <div class="ingredient"><span class="amount">10g</span><span class="name">Dextrose (or 15g glucose syrup)</span></div>
+      <div class="ingredient"><span class="amount">15g</span><span class="name">Glucose syrup</span></div>
       <div class="ingredient"><span class="amount">175g</span><span class="name">Coconut whipping cream</span></div>
       <div class="ingredient"><span class="amount">¼ tsp</span><span class="name">Guar gum</span></div>
       <div class="ingredient"><span class="amount">¼ tsp</span><span class="name">Vanilla powder (optional)</span></div>
@@ -379,28 +415,24 @@
       <div class="ingredient"><span class="amount">2 tablets</span><span class="name">Hermesetas (optional)</span></div>
 
       <p class="ing-group">Toasted Coconut</p>
-      <div class="ingredient"><span class="amount">25g</span><span class="name">Desiccated coconut</span></div>
+      <div class="ingredient"><span class="amount">17g</span><span class="name">Desiccated coconut</span></div>
     </div>
 
     <div class="steps">
       <p class="section-title">Method</p>
       <ol>
-        <li><p>Toast the desiccated coconut in a dry pan over medium heat for 2–3 minutes, stirring constantly, until golden and fragrant. Tip onto a plate and cool completely.</p></li>
-        <li><p>Whisk the guar gum into the sugar and dextrose first to prevent clumping, then whisk this into the coconut milk along with the salt, vanilla powder (if using) and crushed Hermesetas until fully dissolved. <em>Using glucose syrup instead of dextrose:</em> whisk the guar gum into the sugar alone, then warm the glucose syrup briefly if too stiff to pour and stir it in afterward.</p></li>
-        <li><p>Stir in the coconut whipping cream. Cover and refrigerate at least 2 hours, preferably overnight.</p></li>
-        <li><p>Turn the Solo Scoops <strong>ON first</strong>, then pour the chilled base through the funnel. Churn ~20 minutes until thickened.</p></li>
+        <li><p>Toast the desiccated coconut in a dry pan over medium heat for 2–3 minutes, stirring constantly, until golden and fragrant. Tip onto a plate and cool completely.<span class="step-timer" data-seconds="150"></span></p></li>
+        <li><p>Whisk the guar gum into the sugar first to prevent clumping, then whisk this into the coconut milk along with the salt, vanilla powder (if using) and crushed Hermesetas until fully dissolved. Warm the glucose syrup briefly if too stiff to pour, then stir it in.</p></li>
+        <li><p>Stir in the coconut whipping cream. Cover and refrigerate at least 2 hours, preferably overnight.<span class="step-timer" data-seconds="7200"></span></p></li>
+        <li><p>Turn the Solo Scoops <strong>ON first</strong>, then pour the chilled base through the funnel. Churn ~20 minutes until thickened.<span class="step-timer" data-seconds="1200"></span></p></li>
         <li><p>Fold in half the toasted coconut during the last 1–2 minutes of churning. Transfer to an airtight container, pressing cling film onto the surface, and scatter the remaining toasted coconut on top or fold through.</p></li>
-        <li><p>Freeze 2 hours for a firmer scoop. Rest 10–15 min before serving.</p></li>
+        <li><p>Freeze 2 hours for a firmer scoop. Rest 10–15 min before serving.<span class="step-timer" data-seconds="7200"></span></p></li>
       </ol>
     </div>
   </div>
 
   <div class="note-box">
-    <p><strong>For a creamier texture —</strong> dextrose and guar gum are doing the work here that egg yolk normally would. Dextrose has a stronger freezing-point effect per gram than sucrose, so a small amount (10g) softens the texture without diluting sweetness the way glucose syrup can; guar gum limits ice crystal growth. Both are optional but noticeably improve scoopability on a low-sugar, no-egg base.</p>
-  </div>
-
-  <div class="note-box">
-    <p><strong>Dextrose vs. glucose syrup —</strong> dextrose is a dry powder with more anti-freezing power per gram, so less is needed and more granulated sugar can stay in for flavour. Glucose syrup is stickier to work with and less sweet, so if using it instead, increase to 15g and expect a slightly softer, chewier set. Either works — dextrose is the more efficient swap if you can find it.</p>
+    <p><strong>For a creamier texture —</strong> glucose syrup and guar gum are doing the work here that egg yolk normally would. Glucose syrup softens the texture without diluting sweetness too much; guar gum limits ice crystal growth. Both are optional but noticeably improve scoopability on a low-sugar, no-egg base.</p>
   </div>
 
   <div class="note-box">
@@ -421,5 +453,72 @@
   </div>
 
 </div>
+
+<script>
+  document.querySelectorAll('.step-timer').forEach(function (el) {
+    var totalSeconds = parseInt(el.dataset.seconds, 10);
+    var remaining = totalSeconds;
+    var intervalId = null;
+    var state = 'idle'; // idle | running | paused | done
+
+    function format(s) {
+      var h = Math.floor(s / 3600);
+      var m = Math.floor((s % 3600) / 60);
+      var sec = s % 60;
+      if (h > 0) {
+        return h + ':' + (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
+      }
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+
+    function render() {
+      el.classList.remove('running', 'done');
+      if (state === 'running') {
+        el.classList.add('running');
+        el.innerHTML = '<span class="timer-icon">\u275A\u275A</span> ' + format(remaining);
+      } else if (state === 'done') {
+        el.classList.add('done');
+        el.innerHTML = '<span class="timer-icon">\u2713</span> Done';
+      } else {
+        el.innerHTML = '<span class="timer-icon">\u25B6</span> ' + format(remaining);
+      }
+    }
+
+    function tick() {
+      remaining--;
+      if (remaining <= 0) {
+        remaining = 0;
+        clearInterval(intervalId);
+        state = 'done';
+        render();
+        if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+        setTimeout(function () {
+          state = 'idle';
+          remaining = totalSeconds;
+          render();
+        }, 6000);
+        return;
+      }
+      render();
+    }
+
+    el.addEventListener('click', function () {
+      if (state === 'idle' || state === 'paused') {
+        state = 'running';
+        intervalId = setInterval(tick, 1000);
+      } else if (state === 'running') {
+        clearInterval(intervalId);
+        state = 'paused';
+      } else if (state === 'done') {
+        clearInterval(intervalId);
+        state = 'idle';
+        remaining = totalSeconds;
+      }
+      render();
+    });
+
+    render();
+  });
+</script>
 </body>
 </html>

@@ -201,6 +201,42 @@
     font-weight: 300;
   }
 
+  .step-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 8px;
+    padding: 2px 10px;
+    background: #f0f5f2;
+    border: 1px solid #d4e3dc;
+    border-radius: 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #7a9e8e;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    vertical-align: middle;
+  }
+
+  .step-timer:hover { background: #e5efe9; }
+
+  .step-timer.running {
+    background: #7a9e8e;
+    border-color: #7a9e8e;
+    color: #fffef9;
+  }
+
+  .step-timer.done {
+    background: #1c2b24;
+    border-color: #1c2b24;
+    color: #fffef9;
+  }
+
+  .step-timer .timer-icon { font-size: 9px; }
+
   .note-box {
     background: #f0f5f2;
     border-left: 2px solid #7a9e8e;
@@ -276,14 +312,13 @@
     position: absolute;
     top: 52px;
     right: 64px;
-    display: flex;
-    gap: 5px;
-    align-items: flex-end;
+    width: 64px;
+    height: 64px;
   }
 
   .scoop-ball {
-    width: 32px;
-    height: 32px;
+    width: 52px;
+    height: 52px;
     background: radial-gradient(circle at 38% 36%, #fffef9 0%, #f5efe0 40%, #e8dfc8 100%);
     border-radius: 50%;
     position: relative;
@@ -369,9 +404,9 @@
       <p class="section-title">Method</p>
       <ol>
         <li><p>Whisk together milk, sugar, vanilla powder, salt and crushed Hermesetas tablets (if using) until fully dissolved.</p></li>
-        <li><p>Stir in the whipping cream. Cover and refrigerate at least 2 hours, preferably overnight.</p></li>
-        <li><p>Turn the Solo Scoops <strong>ON first</strong>, then pour the chilled base through the funnel. Churn ~20 minutes until thickened.</p></li>
-        <li><p>Transfer to an airtight container. Freeze 2 hours for a firmer scoop. Rest 10–15 min before serving.</p></li>
+        <li><p>Stir in the whipping cream. Cover and refrigerate at least 2 hours, preferably overnight.<span class="step-timer" data-seconds="7200"></span></p></li>
+        <li><p>Turn the Solo Scoops <strong>ON first</strong>, then pour the chilled base through the funnel. Churn ~20 minutes until thickened.<span class="step-timer" data-seconds="1200"></span></p></li>
+        <li><p>Transfer to an airtight container. Freeze 2 hours for a firmer scoop. Rest 10–15 min before serving.<span class="step-timer" data-seconds="7200"></span></p></li>
       </ol>
     </div>
   </div>
@@ -394,5 +429,73 @@
   </div>
 
 </div>
+
+<script>
+  document.querySelectorAll('.step-timer').forEach(function (el) {
+    var totalSeconds = parseInt(el.dataset.seconds, 10);
+    var remaining = totalSeconds;
+    var intervalId = null;
+    var state = 'idle'; // idle | running | paused | done
+
+    function format(s) {
+      var h = Math.floor(s / 3600);
+      var m = Math.floor((s % 3600) / 60);
+      var sec = s % 60;
+      if (h > 0) {
+        return h + ':' + (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
+      }
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+
+    function render() {
+      el.classList.remove('running', 'done');
+      if (state === 'running') {
+        el.classList.add('running');
+        el.innerHTML = '<span class="timer-icon">\u275A\u275A</span> ' + format(remaining);
+      } else if (state === 'done') {
+        el.classList.add('done');
+        el.innerHTML = '<span class="timer-icon">\u2713</span> Done';
+      } else {
+        // idle or paused
+        el.innerHTML = '<span class="timer-icon">\u25B6</span> ' + format(remaining);
+      }
+    }
+
+    function tick() {
+      remaining--;
+      if (remaining <= 0) {
+        remaining = 0;
+        clearInterval(intervalId);
+        state = 'done';
+        render();
+        if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+        setTimeout(function () {
+          state = 'idle';
+          remaining = totalSeconds;
+          render();
+        }, 6000);
+        return;
+      }
+      render();
+    }
+
+    el.addEventListener('click', function () {
+      if (state === 'idle' || state === 'paused') {
+        state = 'running';
+        intervalId = setInterval(tick, 1000);
+      } else if (state === 'running') {
+        clearInterval(intervalId);
+        state = 'paused';
+      } else if (state === 'done') {
+        clearInterval(intervalId);
+        state = 'idle';
+        remaining = totalSeconds;
+      }
+      render();
+    });
+
+    render();
+  });
+</script>
 </body>
 </html>

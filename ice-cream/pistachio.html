@@ -200,6 +200,42 @@
     font-weight: 300;
   }
 
+  .step-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 8px;
+    padding: 2px 10px;
+    background: #f0f5f2;
+    border: 1px solid #d4e3dc;
+    border-radius: 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #7a9e8e;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    vertical-align: middle;
+  }
+
+  .step-timer:hover { background: #e5efe9; }
+
+  .step-timer.running {
+    background: #7a9e8e;
+    border-color: #7a9e8e;
+    color: #fffef9;
+  }
+
+  .step-timer.done {
+    background: #1c2b24;
+    border-color: #1c2b24;
+    color: #fffef9;
+  }
+
+  .step-timer .timer-icon { font-size: 9px; }
+
   .note-box {
     background: #f0f5f2;
     border-left: 2px solid #7a9e8e;
@@ -273,8 +309,8 @@
   /* Signature: pistachio cluster illustration */
   .pistachio-wrap {
     position: absolute;
-    top: 52px;
-    right: 64px;
+    top: 48px;
+    right: 60px;
     display: flex;
     gap: 5px;
     align-items: flex-end;
@@ -362,11 +398,11 @@
       <p class="section-title">Method</p>
       <ol>
         <li><p>Toast pistachios at 160°C for 4–5 min (pre-roasted) or 9–10 min (raw). Cool slightly.</p></li>
-        <li><p>Blend nuts on high, scraping down every few minutes, until a smooth runny paste forms — 10–15 min. Set aside to cool.</p></li>
+        <li><p>Blend nuts on high, scraping down every few minutes, until a smooth runny paste forms — 10–15 min. Set aside to cool.<span class="step-timer" data-seconds="720"></span></p></li>
         <li><p>Whisk cream, milk, sugar, egg yolk and salt in a small saucepan. Cook over medium-low heat, stirring constantly, until it reaches 72°C.</p></li>
         <li><p>Sieve into a bowl. Whisk in 50g pistachio paste and vanilla powder. Press cling film onto the surface and refrigerate overnight.</p></li>
-        <li><p>Turn the Solo Scoops <strong>ON first</strong>, then pour the chilled custard through the funnel. Churn ~20 minutes.</p></li>
-        <li><p>Transfer to an airtight container. Freeze 1–2 hours for a firmer scoop. Rest 10 min before serving.</p></li>
+        <li><p>Turn the Solo Scoops <strong>ON first</strong>, then pour the chilled custard through the funnel. Churn ~20 minutes.<span class="step-timer" data-seconds="1200"></span></p></li>
+        <li><p>Transfer to an airtight container. Freeze 1–2 hours for a firmer scoop. Rest 10 min before serving.<span class="step-timer" data-seconds="5400"></span></p></li>
       </ol>
     </div>
   </div>
@@ -389,5 +425,72 @@
   </div>
 
 </div>
+
+<script>
+  document.querySelectorAll('.step-timer').forEach(function (el) {
+    var totalSeconds = parseInt(el.dataset.seconds, 10);
+    var remaining = totalSeconds;
+    var intervalId = null;
+    var state = 'idle'; // idle | running | paused | done
+
+    function format(s) {
+      var h = Math.floor(s / 3600);
+      var m = Math.floor((s % 3600) / 60);
+      var sec = s % 60;
+      if (h > 0) {
+        return h + ':' + (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
+      }
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+
+    function render() {
+      el.classList.remove('running', 'done');
+      if (state === 'running') {
+        el.classList.add('running');
+        el.innerHTML = '<span class="timer-icon">\u275A\u275A</span> ' + format(remaining);
+      } else if (state === 'done') {
+        el.classList.add('done');
+        el.innerHTML = '<span class="timer-icon">\u2713</span> Done';
+      } else {
+        el.innerHTML = '<span class="timer-icon">\u25B6</span> ' + format(remaining);
+      }
+    }
+
+    function tick() {
+      remaining--;
+      if (remaining <= 0) {
+        remaining = 0;
+        clearInterval(intervalId);
+        state = 'done';
+        render();
+        if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+        setTimeout(function () {
+          state = 'idle';
+          remaining = totalSeconds;
+          render();
+        }, 6000);
+        return;
+      }
+      render();
+    }
+
+    el.addEventListener('click', function () {
+      if (state === 'idle' || state === 'paused') {
+        state = 'running';
+        intervalId = setInterval(tick, 1000);
+      } else if (state === 'running') {
+        clearInterval(intervalId);
+        state = 'paused';
+      } else if (state === 'done') {
+        clearInterval(intervalId);
+        state = 'idle';
+        remaining = totalSeconds;
+      }
+      render();
+    });
+
+    render();
+  });
+</script>
 </body>
 </html>
