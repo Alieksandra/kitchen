@@ -107,6 +107,42 @@
   .steps ol li::before { content: counter(steps); font-family: 'Playfair Display', serif; font-size: 22px; color: #d4e3dc; line-height: 1; min-width: 24px; padding-top: 1px; }
   .steps ol li p { font-size: 13px; line-height: 1.75; color: #3a4a42; font-weight: 300; }
 
+  .step-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 8px;
+    padding: 2px 10px;
+    background: #f0f5f2;
+    border: 1px solid #d4e3dc;
+    border-radius: 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #7a9e8e;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    vertical-align: middle;
+  }
+
+  .step-timer:hover { background: #e5efe9; }
+
+  .step-timer.running {
+    background: #7a9e8e;
+    border-color: #7a9e8e;
+    color: #fffef9;
+  }
+
+  .step-timer.done {
+    background: #1c2b24;
+    border-color: #1c2b24;
+    color: #fffef9;
+  }
+
+  .step-timer .timer-icon { font-size: 9px; }
+
   .note-box { background: #f0f5f2; border-left: 2px solid #7a9e8e; padding: 16px 20px; margin-top: 32px; }
   .note-box p { font-size: 12px; line-height: 1.7; color: #5a6e64; font-weight: 300; }
   .note-box strong { font-weight: 500; color: #3a4a42; }
@@ -204,8 +240,8 @@
         <li><p>Pat the chicken breasts dry. Season both sides with salt and pepper.</p></li>
         <li><p>Mix red pesto, olive oil and crushed garlic in a small bowl. Spread thickly over the top of each breast.</p></li>
         <li><p>Arrange the breasts in a roasting tray and squeeze the lemon juice over them.</p></li>
-        <li><p>Roast at 200°C (fan) for about 25 minutes, until the pesto is bubbling and the chicken is just cooked through (74°C internal at the thickest point). Thicker breasts or a fuller tray may need longer — go by temperature, not the clock.</p></li>
-        <li><p>Cover loosely with foil and let the breasts rest for 5 minutes before slicing.</p></li>
+        <li><p>Roast at 200°C (fan) for about 25 minutes, until the pesto is bubbling and the chicken is just cooked through (74°C internal at the thickest point). Thicker breasts or a fuller tray may need longer — go by temperature, not the clock.<span class="step-timer" data-seconds="1500"></span></p></li>
+        <li><p>Cover loosely with foil and let the breasts rest for 5 minutes before slicing.<span class="step-timer" data-seconds="300"></span></p></li>
       </ol>
     </div>
   </div>
@@ -242,6 +278,73 @@
       el.textContent = el.dataset[size];
     });
   }
+</script>
+
+<script>
+  document.querySelectorAll('.step-timer').forEach(function (el) {
+    var totalSeconds = parseInt(el.dataset.seconds, 10);
+    var remaining = totalSeconds;
+    var intervalId = null;
+    var state = 'idle'; // idle | running | paused | done
+
+    function format(s) {
+      var h = Math.floor(s / 3600);
+      var m = Math.floor((s % 3600) / 60);
+      var sec = s % 60;
+      if (h > 0) {
+        return h + ':' + (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
+      }
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+
+    function render() {
+      el.classList.remove('running', 'done');
+      if (state === 'running') {
+        el.classList.add('running');
+        el.innerHTML = '<span class="timer-icon">\u275A\u275A</span> ' + format(remaining);
+      } else if (state === 'done') {
+        el.classList.add('done');
+        el.innerHTML = '<span class="timer-icon">\u2713</span> Done';
+      } else {
+        el.innerHTML = '<span class="timer-icon">\u25B6</span> ' + format(remaining);
+      }
+    }
+
+    function tick() {
+      remaining--;
+      if (remaining <= 0) {
+        remaining = 0;
+        clearInterval(intervalId);
+        state = 'done';
+        render();
+        if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+        setTimeout(function () {
+          state = 'idle';
+          remaining = totalSeconds;
+          render();
+        }, 6000);
+        return;
+      }
+      render();
+    }
+
+    el.addEventListener('click', function () {
+      if (state === 'idle' || state === 'paused') {
+        state = 'running';
+        intervalId = setInterval(tick, 1000);
+      } else if (state === 'running') {
+        clearInterval(intervalId);
+        state = 'paused';
+      } else if (state === 'done') {
+        clearInterval(intervalId);
+        state = 'idle';
+        remaining = totalSeconds;
+      }
+      render();
+    });
+
+    render();
+  });
 </script>
 
 </body>
