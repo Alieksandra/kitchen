@@ -17,11 +17,10 @@ A personal collection of homemade recipes — ice cream, desserts, and meals —
 | # | Recipe | File |
 |---|--------|------|
 | 01 | Whole Wheat Banana Bread | `desserts/banana-bread.html` |
+| 02 | Banana & Pistachio-Cashew Granola | `desserts/granola.html` |
 
 ### 🍽️ Meals (`/meals`)
-| # | Recipe | File |
-|---|--------|------|
-| 01 | Oven Roasted Chicken with Red Pesto | `meals/chicken-pesto.html` |
+Coming soon.
 
 ## About
 
