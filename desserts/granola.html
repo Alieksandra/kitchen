@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banana & Pistachio-Cashew Granola</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #f0ede6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: 'Jost', sans-serif;
+  }
+
+  .page {
+    background: #fffef9;
+    width: 100%;
+    max-width: 680px;
+    padding: 64px 72px;
+    position: relative;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 0; }
+    .page { padding: 32px 20px; box-shadow: none; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .meta-row { flex-wrap: wrap; gap: 16px; }
+    .macros { grid-template-columns: repeat(3, 1fr); }
+    .macro .value { font-size: 16px; }
+    .macro .mlabel { font-size: 8px; }
+    h1 { font-size: 34px; }
+    .granola-wrap { display: none; }
+    .note-box { padding: 12px 16px; }
+    .footer { flex-direction: column; gap: 8px; text-align: center; }
+    .page::before, .page::after { display: none; }
+    .switchers { flex-direction: column; gap: 8px; }
+  }
+
+  .page::before, .page::after {
+    content: '';
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-color: #b8cfc4;
+    border-style: solid;
+  }
+  .page::before { top: 20px; left: 20px; border-width: 1px 0 0 1px; }
+  .page::after  { bottom: 20px; right: 20px; border-width: 0 1px 1px 0; }
+
+  .breadcrumb { font-size: 11px; color: #aaa49a; font-weight: 300; margin-bottom: 24px; letter-spacing: 0.03em; }
+  .breadcrumb a { color: #7a9e8e; text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: #ccc8c0; }
+
+  .category { font-family: 'Jost', sans-serif; font-weight: 500; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: #7a9e8e; margin-bottom: 16px; }
+
+  h1 { font-family: 'Playfair Display', serif; font-size: 46px; font-weight: 400; line-height: 1.1; color: #1c2b24; margin-bottom: 6px; }
+  h1 em { font-style: italic; color: #7a9e8e; }
+
+  .subtitle { font-size: 13px; color: #8a9490; font-weight: 300; letter-spacing: 0.05em; margin-bottom: 24px; }
+
+  .switchers { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+
+  .switcher { display: inline-flex; background: #f0ede6; border-radius: 20px; padding: 3px; gap: 2px; }
+
+  .switcher button {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none;
+    background: transparent;
+    color: #aaa49a;
+    padding: 6px 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .switcher button.active { background: #fffef9; color: #1c2b24; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+
+  .divider { border: none; border-top: 1px solid #ddd9d0; margin: 32px 0; }
+  .meta-row { display: flex; gap: 40px; margin-bottom: 36px; }
+  .meta-item label { display: block; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #aaa49a; margin-bottom: 4px; }
+  .meta-item span { font-size: 15px; font-weight: 500; color: #1c2b24; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-bottom: 36px; }
+
+  .section-title { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #7a9e8e; margin-bottom: 16px; font-weight: 500; }
+
+  .ingredient { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-bottom: 1px solid #edeae4; gap: 12px; }
+  .ingredient:last-child { border-bottom: none; }
+  .ingredient .amount { font-size: 13px; font-weight: 500; color: #7a9e8e; white-space: nowrap; min-width: 48px; }
+  .ingredient .name { font-size: 13px; color: #3a4a42; font-weight: 300; text-align: right; }
+
+  .steps ol { list-style: none; counter-reset: steps; }
+  .steps ol li { counter-increment: steps; display: flex; gap: 16px; margin-bottom: 18px; align-items: flex-start; }
+  .steps ol li::before { content: counter(steps); font-family: 'Playfair Display', serif; font-size: 22px; color: #d4e3dc; line-height: 1; min-width: 24px; padding-top: 1px; }
+  .steps ol li p { font-size: 13px; line-height: 1.75; color: #3a4a42; font-weight: 300; }
+
+  .step-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 8px;
+    padding: 2px 10px;
+    background: #f0f5f2;
+    border: 1px solid #d4e3dc;
+    border-radius: 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #7a9e8e;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    vertical-align: middle;
+  }
+  .step-timer:hover { background: #e5efe9; }
+  .step-timer.running { background: #7a9e8e; border-color: #7a9e8e; color: #fffef9; }
+  .step-timer.done { background: #1c2b24; border-color: #1c2b24; color: #fffef9; }
+  .step-timer .timer-icon { font-size: 9px; }
+
+  .note-box { background: #f0f5f2; border-left: 2px solid #7a9e8e; padding: 16px 20px; margin-top: 32px; }
+  .note-box p { font-size: 12px; line-height: 1.7; color: #5a6e64; font-weight: 300; }
+  .note-box strong { font-weight: 500; color: #3a4a42; }
+
+  .macros { margin-top: 32px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: #ddd9d0; border: 1px solid #ddd9d0; }
+  .macro { background: #fffef9; padding: 14px 12px; text-align: center; }
+  .macro .value { font-family: 'Playfair Display', serif; font-size: 22px; color: #1c2b24; display: block; }
+  .macro .mlabel { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: #aaa49a; margin-top: 2px; display: block; }
+
+  .footer { margin-top: 40px; display: flex; justify-content: space-between; align-items: center; }
+  .footer .page-num { font-size: 11px; color: #aaa49a; letter-spacing: 0.1em; }
+  .footer .brand { font-family: 'Playfair Display', serif; font-size: 13px; font-style: italic; color: #7a9e8e; }
+
+  /* Signature: granola clusters illustration */
+  .granola-wrap {
+    position: absolute;
+    top: 52px;
+    right: 60px;
+    display: flex;
+    gap: 4px;
+    align-items: flex-end;
+  }
+
+  .cluster {
+    border-radius: 45% 55% 50% 50% / 55% 45% 55% 45%;
+    background: linear-gradient(160deg, #d8b878, #a8763c);
+    position: relative;
+  }
+
+  .cluster:nth-child(1) { width: 20px; height: 24px; transform: rotate(-10deg); }
+  .cluster:nth-child(2) { width: 26px; height: 30px; transform: rotate(6deg); background: linear-gradient(160deg, #e0c088, #b8863f); }
+  .cluster:nth-child(3) { width: 16px; height: 20px; transform: rotate(16deg); }
+
+  .cluster::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 5px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="granola-wrap">
+    <div class="cluster"></div>
+    <div class="cluster"></div>
+    <div class="cluster"></div>
+  </div>
+
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a>
+    <span>→</span>
+    <a href="../index.html#desserts">Desserts</a>
+    <span>→</span>
+    Granola
+  </nav>
+
+  <p class="category">Desserts & Bakes</p>
+  <h1>Banana & <em>Pistachio-Cashew</em><br>Granola</h1>
+  <p class="subtitle">No added sugar · Orange olive oil · Oven-dried</p>
+
+  <div class="switchers">
+    <div class="switcher">
+      <button class="active" onclick="setSize('full', this)">Full batch</button>
+      <button onclick="setSize('half', this)">Half batch</button>
+    </div>
+  </div>
+
+  <div class="meta-row">
+    <div class="meta-item"><label>Prep time</label><span>15 min</span></div>
+    <div class="meta-item"><label>Bake time</label><span>25–30 min</span></div>
+    <div class="meta-item"><label>Cool time</label><span>~30 min</span></div>
+    <div class="meta-item"><label>Yield</label><span id="yield-label">~600g</span></div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="two-col">
+    <div class="ingredients">
+      <p class="section-title">Ingredients</p>
+      <div class="ingredient">
+        <span class="amount" data-full="300g" data-half="150g">300g</span>
+        <span class="name">Rolled oat flakes</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="2" data-half="1">2</span>
+        <span class="name">Ripe bananas, mashed</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="70ml" data-half="35ml">70ml</span>
+        <span class="name">Orange-flavoured olive oil</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="25g" data-half="13g">25g</span>
+        <span class="name">Cashew & pistachio nut butter</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="80g" data-half="40g">80g</span>
+        <span class="name">Mixed seeds</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="½ tsp" data-half="¼ tsp">½ tsp</span>
+        <span class="name">Fine salt</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="60g" data-half="30g">60g</span>
+        <span class="name">Raisins (added after baking)</span>
+      </div>
+    </div>
+
+    <div class="steps">
+      <p class="section-title">Method</p>
+      <ol>
+        <li><p>Preheat oven to 160°C (fan). Line a large baking tray with parchment paper.</p></li>
+        <li><p>Mash the bananas until smooth. Whisk in the olive oil and nut butter until you have a smooth, pourable mixture. If the nut butter is stiff, warm the bowl briefly over hot water or 15 seconds in the microwave.</p></li>
+        <li><p>Add the oats, seeds and salt to the wet mix. Stir thoroughly until every flake is coated. If it looks dry or patchy, add a splash more oil rather than more nut butter.</p></li>
+        <li><p>Spread the mixture in a thin, even layer on the tray. Press it down lightly if you want larger clusters. Bake for 25–30 minutes, stirring halfway through, until golden and fragrant.<span class="step-timer" data-seconds="1500"></span></p></li>
+        <li><p>Turn off the oven and open the door for 2–3 minutes to let the hot air escape. Slide the tray back in and leave the door slightly ajar until completely cool. This dries the granola out gently and helps clusters set without trapping steam.<span class="step-timer" data-seconds="1800"></span></p></li>
+        <li><p>Once fully cooled, stir in the raisins. Store in an airtight container at room temperature for up to 2 weeks.</p></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <p><strong>Tips —</strong> Peanut butter is left out here — it tends to dominate over the more delicate pistachio and cashew notes. The orange oil masks most of the olive oil's own flavour, so it reads as bright and citrusy rather than savoury. Raisins go in only after baking and cooling; baked alongside the oats they'd turn hard and bitter instead of staying soft and chewy.</p>
+  </div>
+
+  <div class="macros">
+    <div class="macro"><span class="value">~360</span><span class="mlabel">kcal / 100g</span></div>
+    <div class="macro"><span class="value">~9g</span><span class="mlabel">Protein</span></div>
+    <div class="macro"><span class="value">~43g</span><span class="mlabel">Carbs</span></div>
+    <div class="macro"><span class="value">~18g</span><span class="mlabel">Fat</span></div>
+    <div class="macro"><span class="value">~8g</span><span class="mlabel">Sugar</span></div>
+  </div>
+
+  <div class="footer">
+    <span class="page-num">— 02 —</span>
+    <span class="brand">My Recipe Book</span>
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.step-timer').forEach(function (el) {
+    var totalSeconds = parseInt(el.dataset.seconds, 10);
+    var remaining = totalSeconds;
+    var intervalId = null;
+    var state = 'idle'; // idle | running | paused | done
+
+    function format(s) {
+      var h = Math.floor(s / 3600);
+      var m = Math.floor((s % 3600) / 60);
+      var sec = s % 60;
+      if (h > 0) {
+        return h + ':' + (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
+      }
+      return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+
+    function render() {
+      el.classList.remove('running', 'done');
+      if (state === 'running') {
+        el.classList.add('running');
+        el.innerHTML = '<span class="timer-icon">\u275A\u275A</span> ' + format(remaining);
+      } else if (state === 'done') {
+        el.classList.add('done');
+        el.innerHTML = '<span class="timer-icon">\u2713</span> Done';
+      } else {
+        el.innerHTML = '<span class="timer-icon">\u25B6</span> ' + format(remaining);
+      }
+    }
+
+    function tick() {
+      remaining--;
+      if (remaining <= 0) {
+        remaining = 0;
+        clearInterval(intervalId);
+        state = 'done';
+        render();
+        if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+        setTimeout(function () {
+          state = 'idle';
+          remaining = totalSeconds;
+          render();
+        }, 6000);
+        return;
+      }
+      render();
+    }
+
+    el.addEventListener('click', function () {
+      if (state === 'idle' || state === 'paused') {
+        state = 'running';
+        intervalId = setInterval(tick, 1000);
+      } else if (state === 'running') {
+        clearInterval(intervalId);
+        state = 'paused';
+      } else if (state === 'done') {
+        clearInterval(intervalId);
+        state = 'idle';
+        remaining = totalSeconds;
+      }
+      render();
+    });
+
+    render();
+  });
+
+  const sizes = {
+    full: { yield: '~600g' },
+    half: { yield: '~300g' }
+  };
+
+  function setSize(size, btn) {
+    btn.closest('.switcher').querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    document.getElementById('yield-label').textContent = sizes[size].yield;
+
+    document.querySelectorAll('.amount[data-full]').forEach(el => {
+      el.textContent = size === 'half' ? el.dataset.half : el.dataset.full;
+    });
+  }
+</script>
+
+</body>
+</html>
