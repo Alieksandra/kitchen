@@ -277,72 +277,9 @@
 
 </div>
 
+<script src="../assets/timer.js"></script>
+
 <script>
-  document.querySelectorAll('.step-timer').forEach(function (el) {
-    var totalSeconds = parseInt(el.dataset.seconds, 10);
-    var remaining = totalSeconds;
-    var intervalId = null;
-    var state = 'idle'; // idle | running | paused | done
-
-    function format(s) {
-      var h = Math.floor(s / 3600);
-      var m = Math.floor((s % 3600) / 60);
-      var sec = s % 60;
-      if (h > 0) {
-        return h + ':' + (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
-      }
-      return m + ':' + (sec < 10 ? '0' : '') + sec;
-    }
-
-    function render() {
-      el.classList.remove('running', 'done');
-      if (state === 'running') {
-        el.classList.add('running');
-        el.innerHTML = '<span class="timer-icon">\u275A\u275A</span> ' + format(remaining);
-      } else if (state === 'done') {
-        el.classList.add('done');
-        el.innerHTML = '<span class="timer-icon">\u2713</span> Done';
-      } else {
-        el.innerHTML = '<span class="timer-icon">\u25B6</span> ' + format(remaining);
-      }
-    }
-
-    function tick() {
-      remaining--;
-      if (remaining <= 0) {
-        remaining = 0;
-        clearInterval(intervalId);
-        state = 'done';
-        render();
-        if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
-        setTimeout(function () {
-          state = 'idle';
-          remaining = totalSeconds;
-          render();
-        }, 6000);
-        return;
-      }
-      render();
-    }
-
-    el.addEventListener('click', function () {
-      if (state === 'idle' || state === 'paused') {
-        state = 'running';
-        intervalId = setInterval(tick, 1000);
-      } else if (state === 'running') {
-        clearInterval(intervalId);
-        state = 'paused';
-      } else if (state === 'done') {
-        clearInterval(intervalId);
-        state = 'idle';
-        remaining = totalSeconds;
-      }
-      render();
-    });
-
-    render();
-  });
-
   const sizes = {
     full: { yield: '~600g' },
     half: { yield: '~300g' }
