@@ -13,6 +13,7 @@ A personal collection of homemade recipes — ice cream, desserts, and meals —
 | 04 | Simple Chocolate Ice Cream | `ice-cream/chocolate.html` |
 | 05 | Maple Walnut Ice Cream | `ice-cream/maple-walnut.html` |
 | 06 | Coconut Ice Cream | `ice-cream/coconut.html` |
+| 07 | Creamy Lemon Ice Cream | `ice-cream/lemon.html` |
 
 ### 🍮 Desserts (`/desserts`)
 | # | Recipe | File |
