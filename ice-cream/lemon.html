@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creamy Lemon Ice Cream</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #f0ede6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: 'Jost', sans-serif;
+  }
+
+  .page {
+    background: #fffef9;
+    width: 100%;
+    max-width: 680px;
+    padding: 64px 72px;
+    position: relative;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 0; }
+    .page { padding: 32px 20px; box-shadow: none; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .meta-row { flex-wrap: wrap; gap: 16px; }
+    .macros { grid-template-columns: repeat(3, 1fr); }
+    .macro .value { font-size: 16px; }
+    .macro .mlabel { font-size: 8px; }
+    h1 { font-size: 34px; }
+    .scoop { display: none; }
+    .note-box { padding: 12px 16px; }
+    .footer { flex-direction: column; gap: 8px; text-align: center; }
+    .page::before, .page::after { display: none; }
+  }
+
+  .page::before, .page::after {
+    content: '';
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-color: #b8cfc4;
+    border-style: solid;
+  }
+  .page::before { top: 20px; left: 20px; border-width: 1px 0 0 1px; }
+  .page::after  { bottom: 20px; right: 20px; border-width: 0 1px 1px 0; }
+
+  .breadcrumb {
+    font-size: 11px;
+    color: #aaa49a;
+    font-weight: 300;
+    margin-bottom: 24px;
+    letter-spacing: 0.03em;
+  }
+
+  .breadcrumb a { color: #7a9e8e; text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: #ccc8c0; }
+
+  .category {
+    font-family: 'Jost', sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #7a9e8e;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 1.1;
+    color: #1c2b24;
+    margin-bottom: 6px;
+  }
+
+  h1 em { font-style: italic; color: #7a9e8e; }
+
+  .subtitle {
+    font-size: 13px;
+    color: #8a9490;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    margin-bottom: 36px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #ddd9d0;
+    margin: 32px 0;
+  }
+
+  .meta-row { display: flex; gap: 40px; margin-bottom: 36px; }
+
+  .meta-item label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #aaa49a;
+    margin-bottom: 4px;
+  }
+
+  .meta-item span { font-size: 15px; font-weight: 500; color: #1c2b24; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 36px;
+  }
+
+  .section-title {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #7a9e8e;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .ingredient {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 9px 0;
+    border-bottom: 1px solid #edeae4;
+    gap: 12px;
+  }
+
+  .ingredient:last-child { border-bottom: none; }
+
+  .ingredient .amount {
+    font-size: 13px;
+    font-weight: 500;
+    color: #7a9e8e;
+    white-space: nowrap;
+    min-width: 48px;
+  }
+
+  .ingredient .name {
+    font-size: 13px;
+    color: #3a4a42;
+    font-weight: 300;
+    text-align: right;
+  }
+
+  .steps ol { list-style: none; counter-reset: steps; }
+
+  .steps ol li {
+    counter-increment: steps;
+    display: flex;
+    gap: 16px;
+    margin-bottom: 18px;
+    align-items: flex-start;
+  }
+
+  .steps ol li::before {
+    content: counter(steps);
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #d4e3dc;
+    line-height: 1;
+    min-width: 24px;
+    padding-top: 1px;
+  }
+
+  .steps ol li p {
+    font-size: 13px;
+    line-height: 1.75;
+    color: #3a4a42;
+    font-weight: 300;
+  }
+
+  .step-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 8px;
+    padding: 2px 10px;
+    background: #f0f5f2;
+    border: 1px solid #d4e3dc;
+    border-radius: 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #7a9e8e;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    vertical-align: middle;
+  }
+
+  .step-timer:hover { background: #e5efe9; }
+  .step-timer.running { background: #7a9e8e; border-color: #7a9e8e; color: #fffef9; }
+  .step-timer.done { background: #1c2b24; border-color: #1c2b24; color: #fffef9; }
+  .step-timer .timer-icon { font-size: 9px; }
+
+  .note-box {
+    background: #f0f5f2;
+    border-left: 2px solid #7a9e8e;
+    padding: 16px 20px;
+    margin-top: 32px;
+  }
+
+  .note-box p { font-size: 12px; line-height: 1.7; color: #5a6e64; font-weight: 300; }
+  .note-box strong { font-weight: 500; color: #3a4a42; }
+
+  .macros {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: #ddd9d0;
+    border: 1px solid #ddd9d0;
+  }
+
+  .macro { background: #fffef9; padding: 14px 12px; text-align: center; }
+
+  .macro .value {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #1c2b24;
+    display: block;
+  }
+
+  .macro .mlabel {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #aaa49a;
+    margin-top: 2px;
+    display: block;
+  }
+
+  .footer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer .page-num { font-size: 11px; color: #aaa49a; letter-spacing: 0.1em; }
+
+  .footer .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-style: italic;
+    color: #7a9e8e;
+  }
+
+  .scoop { position: absolute; top: 52px; right: 64px; width: 64px; height: 64px; }
+
+  .scoop-ball {
+    width: 52px;
+    height: 52px;
+    background: radial-gradient(circle at 38% 36%, #fffef9 0%, #fbf3c4 40%, #ede07a 100%);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: inset -4px -4px 10px rgba(0,0,0,0.07);
+  }
+
+  .scoop-drip {
+    position: absolute;
+    bottom: -12px;
+    left: 20px;
+    width: 12px;
+    height: 20px;
+    background: #ede07a;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .scoop-drip::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 2px;
+    width: 8px;
+    height: 12px;
+    background: #ede07a;
+    border-radius: 0 0 6px 6px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="scoop">
+    <div class="scoop-ball">
+      <div class="scoop-drip"></div>
+    </div>
+  </div>
+
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a>
+    <span>→</span>
+    <a href="../index.html#ice-cream">Ice Cream</a>
+    <span>→</span>
+    Lemon
+  </nav>
+
+  <p class="category">Frozen Desserts — Solo Scoops</p>
+  <h1>Creamy <em>Lemon</em><br>Ice Cream</h1>
+  <p class="subtitle">Low sugar · No egg · Cuisinart Solo Scoops</p>
+
+  <div class="meta-row">
+    <div class="meta-item">
+      <label>Prep time</label>
+      <span>15 min</span>
+    </div>
+    <div class="meta-item">
+      <label>Chill time</label>
+      <span>2 hrs+</span>
+    </div>
+    <div class="meta-item">
+      <label>Churn time</label>
+      <span>~20 min</span>
+    </div>
+    <div class="meta-item">
+      <label>Yield</label>
+      <span>~290g</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="two-col">
+    <div class="ingredients">
+      <p class="section-title">Ingredients</p>
+      <div class="ingredient"><span class="amount">60ml</span><span class="name">Whole milk</span></div>
+      <div class="ingredient"><span class="amount">1</span><span class="name">Lemon, zested</span></div>
+      <div class="ingredient"><span class="amount">30g</span><span class="name">Granulated sugar</span></div>
+      <div class="ingredient"><span class="amount">15g</span><span class="name">Glucose syrup</span></div>
+      <div class="ingredient"><span class="amount">1 pinch</span><span class="name">Fine salt</span></div>
+      <div class="ingredient"><span class="amount">150ml</span><span class="name">Valio whipping cream</span></div>
+      <div class="ingredient"><span class="amount">35ml</span><span class="name">Fresh lemon juice (½ lemon)</span></div>
+    </div>
+
+    <div class="steps">
+      <p class="section-title">Method</p>
+      <ol>
+        <li><p>Zest the lemon into a saucepan. Juice about half of it to get 35ml lemon juice and set aside for later.</p></li>
+        <li><p>Add the milk to the saucepan with the zest. Heat gently until just steaming (don't boil). Remove from heat and let cool to room temperature to infuse.<span class="step-timer" data-seconds="900"></span></p></li>
+        <li><p>Whisk the sugar, glucose syrup and salt into the cooled milk until fully dissolved.</p></li>
+        <li><p>Stir in the whipping cream, then the reserved lemon juice. Cover and refrigerate at least 2 hours, preferably overnight.<span class="step-timer" data-seconds="7200"></span></p></li>
+        <li><p>Turn the Solo Scoops <strong>ON first</strong>, then pour the chilled base through the funnel. Churn ~20 minutes until thickened.<span class="step-timer" data-seconds="1200"></span></p></li>
+        <li><p>Transfer to an airtight container. Freeze 2 hours for a firmer scoop. Rest 10–15 min before serving.<span class="step-timer" data-seconds="7200"></span></p></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <p><strong>Tips —</strong> Total pre-churn volume is ~290ml, under the 300ml Solo Scoops max. One lemon covers both the zest and the juice needed — no need to squeeze it dry. Add the lemon juice last and cold, after chilling, so the acid doesn't meet hot dairy. Part of the sugar is swapped for glucose syrup, which softens sweetness slightly while helping keep the texture smooth.</p>
+  </div>
+
+  <div class="macros">
+    <div class="macro"><span class="value">~248</span><span class="mlabel">kcal / 100g</span></div>
+    <div class="macro"><span class="value">1.7g</span><span class="mlabel">Protein</span></div>
+    <div class="macro"><span class="value">~17g</span><span class="mlabel">Carbs</span></div>
+    <div class="macro"><span class="value">~19g</span><span class="mlabel">Fat</span></div>
+    <div class="macro"><span class="value">~16g</span><span class="mlabel">Added sugar</span></div>
+  </div>
+
+  <div class="footer">
+    <span class="page-num">— 07 —</span>
+    <span class="brand">My Ice Cream Book</span>
+  </div>
+
+</div>
+
+<script src="../assets/timer.js"></script>
+</body>
+</html>
