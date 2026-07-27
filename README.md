@@ -13,7 +13,6 @@ A personal collection of homemade recipes — ice cream, desserts, and meals —
 | 04 | Simple Chocolate Ice Cream | `ice-cream/chocolate.html` |
 | 05 | Maple Walnut Ice Cream | `ice-cream/maple-walnut.html` |
 | 06 | Coconut Ice Cream | `ice-cream/coconut.html` |
-| 07 | Creamy Lemon Ice Cream | `ice-cream/lemon.html` |
 
 ### 🍮 Desserts (`/desserts`)
 | # | Recipe | File |
@@ -26,6 +25,7 @@ A personal collection of homemade recipes — ice cream, desserts, and meals —
 |---|--------|------|
 | 01 | Oven Roasted Chicken with Red Pesto | `meals/chicken-pesto.html` |
 | 02 | Juicy Spaghetti with Ground Beef Sauce | `meals/spaghetti-beef-sauce.html` |
+| 03 | Chicken, Kale & Burst Cherry Tomato Skillet | `meals/chicken-kale-tomato.html` |
 
 ## About
 
