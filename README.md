@@ -26,6 +26,7 @@ A personal collection of homemade recipes — ice cream, desserts, and meals —
 | 01 | Oven Roasted Chicken with Red Pesto | `meals/chicken-pesto.html` |
 | 02 | Juicy Spaghetti with Ground Beef Sauce | `meals/spaghetti-beef-sauce.html` |
 | 03 | Chicken, Kale & Burst Cherry Tomato Skillet | `meals/chicken-kale-tomato.html` |
+| 04 | Beef, Quinoa & Kale Plate | `meals/beef-quinoa-kale.html` |
 
 ## About
 
