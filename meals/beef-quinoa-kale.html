@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beef, Quinoa &amp; Kale Plate</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #f0ede6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: 'Jost', sans-serif;
+  }
+
+  .page {
+    background: #fffef9;
+    width: 100%;
+    max-width: 680px;
+    padding: 64px 72px;
+    position: relative;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.08);
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 0; }
+    .page { padding: 32px 20px; box-shadow: none; }
+    .two-col { grid-template-columns: 1fr; gap: 32px; }
+    .meta-row { flex-wrap: wrap; gap: 16px; }
+    .macros { grid-template-columns: repeat(3, 1fr); }
+    .macro .value { font-size: 16px; }
+    .macro .mlabel { font-size: 8px; }
+    h1 { font-size: 34px; }
+    .sprig-wrap { display: none; }
+    .note-box { padding: 12px 16px; }
+    .footer { flex-direction: column; gap: 8px; text-align: center; }
+    .page::before, .page::after { display: none; }
+  }
+
+  .page::before, .page::after {
+    content: '';
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-color: #b8cfc4;
+    border-style: solid;
+  }
+  .page::before { top: 20px; left: 20px; border-width: 1px 0 0 1px; }
+  .page::after  { bottom: 20px; right: 20px; border-width: 0 1px 1px 0; }
+
+  .breadcrumb { font-size: 11px; color: #aaa49a; font-weight: 300; margin-bottom: 24px; letter-spacing: 0.03em; }
+  .breadcrumb a { color: #7a9e8e; text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb span { margin: 0 6px; color: #ccc8c0; }
+
+  .category { font-family: 'Jost', sans-serif; font-weight: 500; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: #7a9e8e; margin-bottom: 16px; }
+
+  h1 { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 400; line-height: 1.1; color: #1c2b24; margin-bottom: 6px; }
+  h1 em { font-style: italic; color: #7a9e8e; }
+
+  .subtitle { font-size: 13px; color: #8a9490; font-weight: 300; letter-spacing: 0.05em; margin-bottom: 24px; }
+
+  .switchers { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+
+  .switcher-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: #aaa49a; font-weight: 500; }
+
+  .switcher { display: inline-flex; background: #f0ede6; border-radius: 20px; padding: 3px; gap: 2px; }
+
+  .switcher button {
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: none;
+    background: transparent;
+    color: #aaa49a;
+    padding: 6px 16px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .switcher button.active { background: #fffef9; color: #1c2b24; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+
+  .divider { border: none; border-top: 1px solid #ddd9d0; margin: 32px 0; }
+  .meta-row { display: flex; gap: 40px; margin-bottom: 36px; }
+  .meta-item label { display: block; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #aaa49a; margin-bottom: 4px; }
+  .meta-item span { font-size: 15px; font-weight: 500; color: #1c2b24; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-bottom: 36px; }
+
+  .section-title { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: #7a9e8e; margin-bottom: 16px; font-weight: 500; }
+  .group-title { font-size: 10px; letter-spacing: 0.1em; color: #aaa49a; font-weight: 500; margin: 18px 0 6px; text-transform: uppercase; }
+  .group-title:first-of-type { margin-top: 0; }
+
+  .ingredient { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; border-bottom: 1px solid #edeae4; gap: 12px; }
+  .ingredient:last-child { border-bottom: none; }
+  .ingredient .amount { font-size: 13px; font-weight: 500; color: #7a9e8e; white-space: nowrap; min-width: 48px; }
+  .ingredient .name { font-size: 13px; color: #3a4a42; font-weight: 300; text-align: right; }
+
+  .steps ol { list-style: none; counter-reset: steps; }
+  .steps ol li { counter-increment: steps; display: flex; gap: 16px; margin-bottom: 18px; align-items: flex-start; }
+  .steps ol li::before { content: counter(steps); font-family: 'Playfair Display', serif; font-size: 22px; color: #d4e3dc; line-height: 1; min-width: 24px; padding-top: 1px; }
+  .steps ol li p { font-size: 13px; line-height: 1.75; color: #3a4a42; font-weight: 300; }
+
+  .step-timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 8px;
+    padding: 2px 10px;
+    background: #f0f5f2;
+    border: 1px solid #d4e3dc;
+    border-radius: 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #7a9e8e;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    vertical-align: middle;
+  }
+
+  .step-timer:hover { background: #e5efe9; }
+
+  .step-timer.running {
+    background: #7a9e8e;
+    border-color: #7a9e8e;
+    color: #fffef9;
+  }
+
+  .step-timer.done {
+    background: #1c2b24;
+    border-color: #1c2b24;
+    color: #fffef9;
+  }
+
+  .step-timer .timer-icon { font-size: 9px; }
+
+  .note-box { background: #f0f5f2; border-left: 2px solid #7a9e8e; padding: 16px 20px; margin-top: 32px; }
+  .note-box p { font-size: 12px; line-height: 1.7; color: #5a6e64; font-weight: 300; }
+  .note-box strong { font-weight: 500; color: #3a4a42; }
+
+  .macros { margin-top: 32px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: #ddd9d0; border: 1px solid #ddd9d0; }
+  .macro { background: #fffef9; padding: 14px 12px; text-align: center; }
+  .macro .value { font-family: 'Playfair Display', serif; font-size: 22px; color: #1c2b24; display: block; }
+  .macro .mlabel { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: #aaa49a; margin-top: 2px; display: block; }
+
+  .footer { margin-top: 40px; display: flex; justify-content: space-between; align-items: center; }
+  .footer .page-num { font-size: 11px; color: #aaa49a; letter-spacing: 0.1em; }
+  .footer .brand { font-family: 'Playfair Display', serif; font-size: 13px; font-style: italic; color: #7a9e8e; }
+
+  .sprig-wrap { position: absolute; top: 48px; right: 60px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="sprig-wrap">
+    <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M36 12 C36 30 36 50 36 62" stroke="#7a9e8e" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <ellipse cx="26" cy="24" rx="9" ry="5" transform="rotate(-35 26 24)" fill="#a3c2ae"/>
+      <ellipse cx="46" cy="24" rx="9" ry="5" transform="rotate(35 46 24)" fill="#a3c2ae"/>
+      <ellipse cx="24" cy="38" rx="9" ry="5" transform="rotate(-30 24 38)" fill="#8fb69f"/>
+      <ellipse cx="48" cy="38" rx="9" ry="5" transform="rotate(30 48 38)" fill="#8fb69f"/>
+      <circle cx="36" cy="14" r="4" fill="#c85c3f"/>
+    </svg>
+  </div>
+
+  <nav class="breadcrumb">
+    <a href="../index.html">Home</a>
+    <span>→</span>
+    <a href="../index.html#meals">Meals</a>
+    <span>→</span>
+    Beef, Quinoa &amp; Kale
+  </nav>
+
+  <p class="category">Meals</p>
+  <h1>Beef, Quinoa<br>&amp; <em>Kale</em> Plate</h1>
+  <p class="subtitle">Seared beef · Fluffy quinoa · Sautéed kale · Served separately</p>
+
+  <div class="switchers">
+    <div class="switcher">
+      <button class="active" onclick="setSize('full', this)">Full portion</button>
+      <button onclick="setSize('half', this)">Half portion</button>
+    </div>
+  </div>
+
+  <div class="meta-row">
+    <div class="meta-item"><label>Prep time</label><span>10 min</span></div>
+    <div class="meta-item"><label>Cook time</label><span>25 min</span></div>
+    <div class="meta-item"><label>Total time</label><span>~35 min</span></div>
+    <div class="meta-item"><label>Yield</label><span id="yield-label">2 servings</span></div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="two-col">
+    <div class="ingredients">
+      <p class="section-title">Ingredients</p>
+
+      <p class="group-title">Beef</p>
+      <div class="ingredient">
+        <span class="amount" data-full="500g" data-half="250g">500g</span>
+        <span class="name">Ground beef (10–12% fat)</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="1" data-half="½">1</span>
+        <span class="name">Garlic clove, crushed</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="1½ tbsp" data-half="¾ tbsp">1½ tbsp</span>
+        <span class="name">Tomato paste</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="250g" data-half="125g">250g</span>
+        <span class="name">Fresh tomatoes, chopped (or cherry tomatoes, halved)</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="1 tsp" data-half="½ tsp">1 tsp</span>
+        <span class="name">Dried oregano</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="1½ tbsp" data-half="¾ tbsp">1½ tbsp</span>
+        <span class="name">Olive oil</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="½ tsp" data-half="¼ tsp">½ tsp</span>
+        <span class="name">Salt</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="¼ tsp" data-half="pinch">¼ tsp</span>
+        <span class="name">Black pepper</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="Handful" data-half="Small handful">Handful</span>
+        <span class="name">Fresh basil, torn, to finish</span>
+      </div>
+
+      <p class="group-title">Quinoa</p>
+      <div class="ingredient">
+        <span class="amount" data-full="100g" data-half="50g">100g</span>
+        <span class="name">Quinoa, rinsed</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="200ml" data-half="100ml">200ml</span>
+        <span class="name">Chicken stock</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="Pinch" data-half="Pinch">Pinch</span>
+        <span class="name">Salt</span>
+      </div>
+
+      <p class="group-title">Kale</p>
+      <div class="ingredient">
+        <span class="amount" data-full="80g" data-half="40g">80g</span>
+        <span class="name">Black kale (cavolo nero), stems removed, torn</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="1 tsp" data-half="½ tsp">1 tsp</span>
+        <span class="name">Olive oil</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="Squeeze" data-half="Squeeze">Squeeze</span>
+        <span class="name">Lemon juice</span>
+      </div>
+      <div class="ingredient">
+        <span class="amount" data-full="Pinch" data-half="Pinch">Pinch</span>
+        <span class="name">Salt</span>
+      </div>
+    </div>
+
+    <div class="steps">
+      <p class="section-title">Method</p>
+      <ol>
+        <li><p>Toast the rinsed quinoa dry in a small pot over medium heat for 1 minute, then add the chicken stock and a pinch of salt. Bring to a boil, cover, and simmer on low until the liquid is absorbed, about 15 minutes.<span class="step-timer" data-seconds="900"></span></p></li>
+        <li><p>Remove the quinoa from the heat and rest, covered, for 5 minutes, then fluff with a fork.<span class="step-timer" data-seconds="300"></span></p></li>
+        <li><p>Meanwhile, heat the olive oil in a pan over medium-high heat. Add the beef and sear hard, breaking it apart, until well browned all over, about 7–8 minutes. Good browning matters here, since there's no onion base to build flavour.<span class="step-timer" data-seconds="450"></span></p></li>
+        <li><p>Add the garlic and cook 30 seconds until fragrant, then stir in the tomato paste and oregano and cook 1 minute to deepen the flavour.<span class="step-timer" data-seconds="30"></span></p></li>
+        <li><p>Add the chopped tomatoes, bring to a gentle simmer, and cook until thickened, 10–12 minutes. Season with salt and pepper.<span class="step-timer" data-seconds="660"></span></p></li>
+        <li><p>While the beef simmers, heat the olive oil for the kale in a separate pan over medium-high heat. Add the kale and sauté until wilted and just starting to crisp at the edges, 2–3 minutes.<span class="step-timer" data-seconds="150"></span></p></li>
+        <li><p>Finish the kale off the heat with a squeeze of lemon juice and a pinch of salt.</p></li>
+        <li><p>Scatter the torn basil over the beef just before serving.</p></li>
+        <li><p>Plate the beef, quinoa, and kale as separate components.</p></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <p><strong>Tips —</strong> With no onion in the sauce, a hard sear on the beef plus the tomato paste, oregano, and fresh basil carry the depth — don't skip the sear. Keep the quinoa fluffed and separate rather than folding it into the beef so each component holds its own texture. Leftovers keep refrigerated up to 3 days; store the three components separately for best texture on reheating.</p>
+  </div>
+
+  <div class="macros">
+    <div class="macro"><span class="value">~166</span><span class="mlabel">kcal / 100g</span></div>
+    <div class="macro"><span class="value">~13g</span><span class="mlabel">Protein</span></div>
+    <div class="macro"><span class="value">~9g</span><span class="mlabel">Carbs</span></div>
+    <div class="macro"><span class="value">~8g</span><span class="mlabel">Fat</span></div>
+    <div class="macro"><span class="value">~1g</span><span class="mlabel">Sugar</span></div>
+    <div class="macro"><span class="value">~1g</span><span class="mlabel">Fiber</span></div>
+  </div>
+
+  <div class="footer">
+    <span class="page-num">— 04 —</span>
+    <span class="brand">My Recipe Book</span>
+  </div>
+
+</div>
+
+<script>
+  const yields = { full: '2 servings', half: '1 serving' };
+
+  function setSize(size, btn) {
+    btn.closest('.switcher').querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    document.getElementById('yield-label').textContent = yields[size];
+
+    document.querySelectorAll('.amount[data-full]').forEach(el => {
+      el.textContent = el.dataset[size];
+    });
+  }
+</script>
+
+<script src="../assets/timer.js"></script>
+
+</body>
+</html>
