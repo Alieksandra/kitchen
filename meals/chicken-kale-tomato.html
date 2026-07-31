@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chicken, Kale &amp; Burst Cherry Tomato Skillet</title>
+<title>Chicken, Kale &amp; Burst Cherry Tomato</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -157,6 +157,8 @@
   .footer .brand { font-family: 'Playfair Display', serif; font-size: 13px; font-style: italic; color: #7a9e8e; }
 
   .sprig-wrap { position: absolute; top: 48px; right: 60px; }
+
+  .mode-panel[data-hidden="true"] { display: none; }
 </style>
 </head>
 <body>
@@ -182,64 +184,43 @@
   </nav>
 
   <p class="category">Meals</p>
-  <h1>Chicken, Kale &amp;<br><em>Burst Cherry Tomato</em> Skillet</h1>
-  <p class="subtitle">Black kale · Blistered tomatoes · One pan</p>
+  <h1>Chicken, Kale &amp;<br><em>Burst Cherry Tomato</em></h1>
+  <p class="subtitle" id="subtitle">Black kale · Blistered tomatoes · One pan</p>
 
   <div class="switchers">
     <div class="switcher">
-      <button class="active" onclick="setSize('full', this)">Full portion</button>
-      <button onclick="setSize('half', this)">Half portion</button>
+      <button class="active" onclick="setMode('skillet', this)">Skillet</button>
+      <button onclick="setMode('grilled', this)">Grilled</button>
     </div>
   </div>
 
-  <div class="meta-row">
+  <div class="meta-row mode-panel" data-mode="skillet">
     <div class="meta-item"><label>Prep time</label><span>10 min</span></div>
     <div class="meta-item"><label>Cook time</label><span>20 min</span></div>
     <div class="meta-item"><label>Total time</label><span>~30 min</span></div>
-    <div class="meta-item"><label>Yield</label><span id="yield-label">2 servings</span></div>
+    <div class="meta-item"><label>Yield</label><span>2 servings</span></div>
+  </div>
+  <div class="meta-row mode-panel" data-mode="grilled" data-hidden="true">
+    <div class="meta-item"><label>Prep + marinate</label><span>15 min</span></div>
+    <div class="meta-item"><label>Cook time</label><span>15 min</span></div>
+    <div class="meta-item"><label>Total time</label><span>~30 min</span></div>
+    <div class="meta-item"><label>Yield</label><span>2 servings</span></div>
   </div>
 
   <hr class="divider">
 
-  <div class="two-col">
+  <div class="two-col mode-panel" data-mode="skillet">
     <div class="ingredients">
       <p class="section-title">Ingredients</p>
-      <div class="ingredient">
-        <span class="amount" data-full="300g" data-half="150g">300g</span>
-        <span class="name">Chicken thighs, boneless, skin-on</span>
-      </div>
-      <div class="ingredient">
-        <span class="amount" data-full="200g" data-half="100g">200g</span>
-        <span class="name">Cherry tomatoes, halved</span>
-      </div>
-      <div class="ingredient">
-        <span class="amount" data-full="100g" data-half="50g">100g</span>
-        <span class="name">Black kale (cavolo nero), stems removed, chopped</span>
-      </div>
-      <div class="ingredient">
-        <span class="amount" data-full="2" data-half="1">2</span>
-        <span class="name">Garlic cloves, thinly sliced</span>
-      </div>
-      <div class="ingredient">
-        <span class="amount" data-full="15ml" data-half="8ml">15ml</span>
-        <span class="name">Olive oil</span>
-      </div>
-      <div class="ingredient">
-        <span class="amount" data-full="½" data-half="¼">½</span>
-        <span class="name">Lemon, juiced</span>
-      </div>
-      <div class="ingredient">
-        <span class="amount" data-full="10g" data-half="5g">10g</span>
-        <span class="name">Butter (optional, for finishing)</span>
-      </div>
-      <div class="ingredient">
-        <span class="amount" data-full="½ tsp" data-half="¼ tsp">½ tsp</span>
-        <span class="name">Salt</span>
-      </div>
-      <div class="ingredient">
-        <span class="amount" data-full="¼ tsp" data-half="⅛ tsp">¼ tsp</span>
-        <span class="name">Black pepper</span>
-      </div>
+      <div class="ingredient"><span class="amount">300g</span><span class="name">Chicken thighs, boneless, skin-on</span></div>
+      <div class="ingredient"><span class="amount">200g</span><span class="name">Cherry tomatoes, halved</span></div>
+      <div class="ingredient"><span class="amount">100g</span><span class="name">Black kale (cavolo nero), stems removed, chopped</span></div>
+      <div class="ingredient"><span class="amount">2</span><span class="name">Garlic cloves, thinly sliced</span></div>
+      <div class="ingredient"><span class="amount">15ml</span><span class="name">Olive oil</span></div>
+      <div class="ingredient"><span class="amount">½</span><span class="name">Lemon, juiced</span></div>
+      <div class="ingredient"><span class="amount">10g</span><span class="name">Butter (optional, for finishing)</span></div>
+      <div class="ingredient"><span class="amount">½ tsp</span><span class="name">Salt</span></div>
+      <div class="ingredient"><span class="amount">¼ tsp</span><span class="name">Black pepper</span></div>
     </div>
 
     <div class="steps">
@@ -255,15 +236,55 @@
     </div>
   </div>
 
-  <div class="note-box">
-    <p><strong>Tips —</strong> This is protein and veg without a carb, so it eats a little light on its own — good with crusty bread, rice, or boiled baby potatoes on the side. For a true one-pan meal, stir in cooked orzo with a splash of stock during the last few minutes to soak up the tomato-kale juices. Leftovers keep refrigerated for up to 3 days.</p>
+  <div class="two-col mode-panel" data-mode="grilled" data-hidden="true">
+    <div class="ingredients">
+      <p class="section-title">Ingredients</p>
+      <div class="ingredient"><span class="amount">300g</span><span class="name">Chicken thighs, boneless, skinless</span></div>
+      <div class="ingredient"><span class="amount">200g</span><span class="name">Cherry tomatoes, halved</span></div>
+      <div class="ingredient"><span class="amount">100g</span><span class="name">Black kale (cavolo nero), stems removed, chopped</span></div>
+      <div class="ingredient"><span class="amount">1</span><span class="name">Garlic clove, minced (for marinade)</span></div>
+      <div class="ingredient"><span class="amount">1</span><span class="name">Garlic clove, thinly sliced (for pan)</span></div>
+      <div class="ingredient"><span class="amount">8ml</span><span class="name">Olive oil (for marinade)</span></div>
+      <div class="ingredient"><span class="amount">7ml</span><span class="name">Olive oil (for pan)</span></div>
+      <div class="ingredient"><span class="amount">½</span><span class="name">Lemon, juiced (split: marinade + finishing)</span></div>
+      <div class="ingredient"><span class="amount">10g</span><span class="name">Butter (optional, for finishing)</span></div>
+      <div class="ingredient"><span class="amount">½ tsp</span><span class="name">Salt</span></div>
+      <div class="ingredient"><span class="amount">¼ tsp</span><span class="name">Black pepper</span></div>
+    </div>
+
+    <div class="steps">
+      <p class="section-title">Method</p>
+      <ol>
+        <li><p>Combine the chicken thighs with the marinade oil, minced garlic, half the lemon juice, salt and pepper. Marinate at least 15 minutes at room temperature (longer in the fridge is fine).<span class="step-timer" data-seconds="900"></span></p></li>
+        <li><p>Heat the grill to medium-high, direct heat. Grill the chicken, flipping once, until the internal temperature reaches 74°C, about 5–6 minutes per side.<span class="step-timer" data-seconds="360"></span></p></li>
+        <li><p>Move the chicken to a plate and rest for 5 minutes while you finish the vegetables.<span class="step-timer" data-seconds="300"></span></p></li>
+        <li><p>Meanwhile, heat the pan oil in a skillet over medium-high. Add the sliced garlic and cook until fragrant, about 30 seconds.<span class="step-timer" data-seconds="30"></span></p></li>
+        <li><p>Add the cherry tomatoes and cook until they start to blister and burst, releasing their juice, about 4–5 minutes.<span class="step-timer" data-seconds="270"></span></p></li>
+        <li><p>Add the kale and stir through until wilted and it's soaked up the tomato juices, about 2–3 minutes.<span class="step-timer" data-seconds="150"></span></p></li>
+        <li><p>Off the heat, stir in the remaining lemon juice and butter if using. Slice the rested chicken and place on top before serving.</p></li>
+      </ol>
+    </div>
   </div>
 
-  <div class="macros">
+  <div class="note-box mode-panel" data-mode="skillet">
+    <p><strong>Tips —</strong> This is protein and veg without a carb, so it eats a little light on its own — good with crusty bread, rice, or boiled baby potatoes on the side. For a true one-pan meal, stir in cooked orzo with a splash of stock during the last few minutes to soak up the tomato-kale juices. Leftovers keep refrigerated for up to 3 days.</p>
+  </div>
+  <div class="note-box mode-panel" data-mode="grilled" data-hidden="true">
+    <p><strong>Tips —</strong> This is protein and veg without a carb, so it eats a little light on its own — good with crusty bread, rice, or boiled baby potatoes on the side. Grill the chicken and cook the tomato-kale pan at the same time to keep the whole thing to about 30 minutes start to finish. Leftovers keep refrigerated for up to 3 days.</p>
+  </div>
+
+  <div class="macros mode-panel" data-mode="skillet">
     <div class="macro"><span class="value">~150</span><span class="mlabel">kcal / 100g</span></div>
     <div class="macro"><span class="value">~14g</span><span class="mlabel">Protein</span></div>
     <div class="macro"><span class="value">~3g</span><span class="mlabel">Carbs</span></div>
     <div class="macro"><span class="value">~9g</span><span class="mlabel">Fat</span></div>
+    <div class="macro"><span class="value">~1.5g</span><span class="mlabel">Sugar</span></div>
+  </div>
+  <div class="macros mode-panel" data-mode="grilled" data-hidden="true">
+    <div class="macro"><span class="value">~125</span><span class="mlabel">kcal / 100g</span></div>
+    <div class="macro"><span class="value">~15g</span><span class="mlabel">Protein</span></div>
+    <div class="macro"><span class="value">~3g</span><span class="mlabel">Carbs</span></div>
+    <div class="macro"><span class="value">~6g</span><span class="mlabel">Fat</span></div>
     <div class="macro"><span class="value">~1.5g</span><span class="mlabel">Sugar</span></div>
   </div>
 
@@ -275,16 +296,19 @@
 </div>
 
 <script>
-  const yields = { full: '2 servings', half: '1 serving' };
+  const subtitles = {
+    skillet: 'Black kale · Blistered tomatoes · One pan',
+    grilled: 'Black kale · Blistered tomatoes · Off the grill'
+  };
 
-  function setSize(size, btn) {
+  function setMode(mode, btn) {
     btn.closest('.switcher').querySelectorAll('button').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 
-    document.getElementById('yield-label').textContent = yields[size];
+    document.getElementById('subtitle').textContent = subtitles[mode];
 
-    document.querySelectorAll('.amount[data-full]').forEach(el => {
-      el.textContent = el.dataset[size];
+    document.querySelectorAll('.mode-panel').forEach(el => {
+      el.dataset.hidden = el.dataset.mode === mode ? 'false' : 'true';
     });
   }
 </script>
