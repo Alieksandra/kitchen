@@ -14,6 +14,7 @@ A personal collection of homemade recipes — ice cream, desserts, and meals —
 | 05 | Maple Walnut Ice Cream | `ice-cream/maple-walnut.html` |
 | 06 | Coconut Ice Cream | `ice-cream/coconut.html` |
 | 07 | Fresh Mint & Vanilla Ice Cream | `ice-cream/mint-vanilla.html` |
+| 08 | Creamy Lemon Ice Cream | `ice-cream/lemon.html` |
 
 ### 🍮 Desserts (`/desserts`)
 | # | Recipe | File |
