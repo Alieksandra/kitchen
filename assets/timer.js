@@ -239,15 +239,46 @@
 
   setInterval(refreshWidget, 1000);
 
+  /* ---------- keep screen awake on recipe pages ---------- */
+
+  function initWakeLock() {
+    if (!('wakeLock' in navigator)) return;
+
+    var wakeLock = null;
+
+    function requestWakeLock() {
+      navigator.wakeLock.request('screen').then(function (lock) {
+        wakeLock = lock;
+        wakeLock.addEventListener('release', function () {
+          wakeLock = null;
+        });
+      }).catch(function () {
+        // Ignore — e.g. battery saver mode or permission denial.
+      });
+    }
+
+    requestWakeLock();
+
+    // Re-acquire when returning to the tab (the lock is auto-released
+    // whenever the page goes into the background).
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible' && !wakeLock) {
+        requestWakeLock();
+      }
+    });
+  }
+
   /* ---------- init ---------- */
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
       initStepTimers();
       refreshWidget();
+      initWakeLock();
     });
   } else {
     initStepTimers();
     refreshWidget();
+    initWakeLock();
   }
 })();
