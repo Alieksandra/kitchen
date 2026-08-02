@@ -252,14 +252,14 @@
 
     var style = document.createElement('style');
     style.textContent =
-      '.kt-wakelock-btn{position:fixed;right:16px;top:16px;z-index:9999;' +
-      'font-family:"Jost",sans-serif;font-size:12px;font-weight:500;' +
+      '.kt-wakelock-btn{position:fixed;right:12px;top:12px;z-index:9999;' +
+      'font-family:"Jost",sans-serif;font-size:10px;font-weight:500;' +
       'letter-spacing:0.02em;background:#fffef9;color:#1c2b24;' +
-      'border:1px solid #d8d2c4;border-radius:22px;padding:9px 16px;' +
-      'box-shadow:0 4px 16px rgba(0,0,0,0.12);cursor:pointer;' +
-      'display:flex;align-items:center;gap:7px;transition:transform 0.15s,background 0.15s;}' +
+      'border:1px solid #d8d2c4;border-radius:14px;padding:5px 10px;' +
+      'box-shadow:0 2px 10px rgba(0,0,0,0.10);cursor:pointer;' +
+      'display:flex;align-items:center;gap:5px;transition:transform 0.15s,background 0.15s;}' +
       '.kt-wakelock-btn:hover{transform:translateY(-1px);}' +
-      '.kt-wakelock-btn .kt-wl-dot{width:6px;height:6px;border-radius:50%;background:#c9c2b2;flex-shrink:0;}' +
+      '.kt-wakelock-btn .kt-wl-dot{width:5px;height:5px;border-radius:50%;background:#c9c2b2;flex-shrink:0;}' +
       '.kt-wakelock-btn.kt-wl-on{background:#7a9e8e;color:#fffef9;border-color:#7a9e8e;}' +
       '.kt-wakelock-btn.kt-wl-on .kt-wl-dot{background:#fffef9;}';
     document.head.appendChild(style);
