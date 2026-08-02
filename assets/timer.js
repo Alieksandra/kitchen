@@ -241,28 +241,74 @@
 
   /* ---------- keep screen awake on recipe pages ---------- */
 
+  /* Safari/WebKit (which every iOS browser, including Chrome, is required
+     to use) only grants a wake lock if request() is called directly inside
+     a tap/click handler — it silently rejects one fired on page load.
+     Chromium browsers on desktop/Android don't have that restriction, but
+     a tap-triggered toggle works everywhere, so we use one for all. */
+
   function initWakeLock() {
     if (!('wakeLock' in navigator)) return;
 
+    var style = document.createElement('style');
+    style.textContent =
+      '.kt-wakelock-btn{position:fixed;right:16px;top:16px;z-index:9999;' +
+      'font-family:"Jost",sans-serif;font-size:12px;font-weight:500;' +
+      'letter-spacing:0.02em;background:#fffef9;color:#1c2b24;' +
+      'border:1px solid #d8d2c4;border-radius:22px;padding:9px 16px;' +
+      'box-shadow:0 4px 16px rgba(0,0,0,0.12);cursor:pointer;' +
+      'display:flex;align-items:center;gap:7px;transition:transform 0.15s,background 0.15s;}' +
+      '.kt-wakelock-btn:hover{transform:translateY(-1px);}' +
+      '.kt-wakelock-btn .kt-wl-dot{width:6px;height:6px;border-radius:50%;background:#c9c2b2;flex-shrink:0;}' +
+      '.kt-wakelock-btn.kt-wl-on{background:#7a9e8e;color:#fffef9;border-color:#7a9e8e;}' +
+      '.kt-wakelock-btn.kt-wl-on .kt-wl-dot{background:#fffef9;}';
+    document.head.appendChild(style);
+
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'kt-wakelock-btn';
+    btn.innerHTML = '<span class="kt-wl-dot"></span><span class="kt-wl-label">Keep screen on</span>';
+    document.body.appendChild(btn);
+
     var wakeLock = null;
+    var wantsOn = false;
+
+    function setLabel(text) {
+      btn.querySelector('.kt-wl-label').textContent = text;
+    }
 
     function requestWakeLock() {
       navigator.wakeLock.request('screen').then(function (lock) {
         wakeLock = lock;
+        btn.classList.add('kt-wl-on');
+        setLabel('Screen staying on');
         wakeLock.addEventListener('release', function () {
           wakeLock = null;
+          btn.classList.remove('kt-wl-on');
+          setLabel(wantsOn ? 'Keep screen on' : 'Keep screen on');
         });
       }).catch(function () {
-        // Ignore — e.g. battery saver mode or permission denial.
+        wantsOn = false;
+        btn.classList.remove('kt-wl-on');
+        setLabel('Keep screen on');
       });
     }
 
-    requestWakeLock();
+    btn.addEventListener('click', function () {
+      if (wakeLock) {
+        wantsOn = false;
+        wakeLock.release();
+      } else {
+        wantsOn = true;
+        requestWakeLock();
+      }
+    });
 
-    // Re-acquire when returning to the tab (the lock is auto-released
-    // whenever the page goes into the background).
+    // Re-acquire when returning to the tab, since the system releases the
+    // lock whenever the page is backgrounded — but only if the person had
+    // turned it on, and only the tap that turned it on needs the gesture.
     document.addEventListener('visibilitychange', function () {
-      if (document.visibilityState === 'visible' && !wakeLock) {
+      if (document.visibilityState === 'visible' && wantsOn && !wakeLock) {
         requestWakeLock();
       }
     });
