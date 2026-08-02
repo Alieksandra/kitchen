@@ -20,7 +20,7 @@ A personal collection of homemade recipes — ice cream, desserts, and meals —
 | # | Recipe | File |
 |---|--------|------|
 | 01 | Whole Wheat Banana Bread | `desserts/banana-bread.html` |
-| 02 | Banana & Pistachio-Cashew Granola | `desserts/granola.html` |
+| 02 | Banana & Orange Oil Granola | `desserts/granola.html` |
 | 03 | Blueberry Sour Cream Tart | `desserts/blueberry-sour-cream-tart.html` |
 
 ### 🍽️ Meals (`/meals`)
