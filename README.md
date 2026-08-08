@@ -20,7 +20,7 @@ A personal collection of homemade recipes — ice cream, desserts, and meals —
 | # | Recipe | File |
 |---|--------|------|
 | 01 | Whole Wheat Banana Bread | `desserts/banana-bread.html` |
-| 02 | Banana & Orange Oil Granola | `desserts/granola.html` |
+| 02 | Banana & Pistachio-Cashew Granola | `desserts/granola.html` |
 | 03 | Blueberry Sour Cream Tart | `desserts/blueberry-sour-cream-tart.html` |
 
 ### 🍽️ Meals (`/meals`)
@@ -30,6 +30,7 @@ A personal collection of homemade recipes — ice cream, desserts, and meals —
 | 02 | Juicy Spaghetti with Ground Beef Sauce | `meals/spaghetti-beef-sauce.html` |
 | 03 | Chicken, Kale & Burst Cherry Tomato Skillet | `meals/chicken-kale-tomato.html` |
 | 04 | Beef, Quinoa & Kale Plate | `meals/beef-quinoa-kale.html` |
+| 05 | Quick Whole Wheat Beef Pie | `meals/beef-pie.html` |
 
 ## About
 
